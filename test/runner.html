@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mocha Tests</title>
+        <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div id="mocha"></div>
+        <script src="../node_modules/mocha/mocha.js"></script>
+        <script src="../node_modules/sinon/pkg/sinon-1.15.4.js"></script>
+        <script src="../node_modules/chai/chai.js"></script>
+        <script>mocha.setup('bdd')</script>
+        <script src="../build/test.min.js"></script>
+        <script src="./test.js"></script>
+        <script>
+          if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+          else { mocha.run(); }
+        </script>
+    </body>
+</html>
