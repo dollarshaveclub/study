@@ -14,14 +14,13 @@ npm test # Run tests
 <script>
   var chosen = new Test(name, data, options);
 
-  console.log(chosen);
-  /* {
+  chosen == {
     bucket: "control",
     data: {
       weight: 1,
       chosen: function() {}
     }
-  } */
+  }
 </script>
 ```
 
