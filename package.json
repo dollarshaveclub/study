@@ -21,5 +21,8 @@
     "mocha": "2.2.5",
     "mocha-phantomjs": "3.6.0",
     "sinon": "1.15.4"
+  },
+  "dependencies": {
+    "gulp-concat": "^2.6.0"
   }
 }

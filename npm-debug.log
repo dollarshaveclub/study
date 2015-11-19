@@ -1,0 +1,38 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/jkelley/.nvm/versions/node/v0.12.0/bin/node',
+1 verbose cli   '/Users/jkelley/.nvm/versions/node/v0.12.0/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'build-watch' ]
+2 info using npm@2.5.1
+3 info using node@v0.12.0
+4 verbose run-script [ 'prebuild-watch', 'build-watch', 'postbuild-watch' ]
+5 info prebuild-watch ab-tester@0.1.0
+6 info build-watch ab-tester@0.1.0
+7 verbose unsafe-perm in lifecycle true
+8 info ab-tester@0.1.0 Failed to exec build-watch script
+9 verbose stack Error: ab-tester@0.1.0 build-watch: `./node_modules/gulp/bin/gulp.js watch`
+9 verbose stack Exit status 1
+9 verbose stack     at EventEmitter.<anonymous> (/Users/jkelley/.nvm/versions/node/v0.12.0/lib/node_modules/npm/lib/utils/lifecycle.js:213:16)
+9 verbose stack     at EventEmitter.emit (events.js:110:17)
+9 verbose stack     at ChildProcess.<anonymous> (/Users/jkelley/.nvm/versions/node/v0.12.0/lib/node_modules/npm/lib/utils/spawn.js:14:12)
+9 verbose stack     at ChildProcess.emit (events.js:110:17)
+9 verbose stack     at maybeClose (child_process.js:1008:16)
+9 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1080:5)
+10 verbose pkgid ab-tester@0.1.0
+11 verbose cwd /Users/jkelley/Repos/ab-tester.js
+12 error Darwin 14.4.0
+13 error argv "/Users/jkelley/.nvm/versions/node/v0.12.0/bin/node" "/Users/jkelley/.nvm/versions/node/v0.12.0/bin/npm" "run" "build-watch"
+14 error node v0.12.0
+15 error npm  v2.5.1
+16 error code ELIFECYCLE
+17 error ab-tester@0.1.0 build-watch: `./node_modules/gulp/bin/gulp.js watch`
+17 error Exit status 1
+18 error Failed at the ab-tester@0.1.0 build-watch script './node_modules/gulp/bin/gulp.js watch'.
+18 error This is most likely a problem with the ab-tester package,
+18 error not with npm itself.
+18 error Tell the author that this fails on your system:
+18 error     ./node_modules/gulp/bin/gulp.js watch
+18 error You can get their info via:
+18 error     npm owner ls ab-tester
+18 error There is likely additional logging output above.
+19 verbose exit [ 1, true ]
