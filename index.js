@@ -17,6 +17,12 @@
      * @param  {Array} names   List of test names (Strings)
      * @param  {Array} weights List of test weights (Numbers)
      * @return {String}        Chosen test name
+     *
+     * .1 / 1 = 10% / 90%
+     * .25 / .75 = 33% / 60%
+     * .25 / 1 = 25% / 75%
+     *
+     * Weight sums represent the bounds.
      */
     chooseWeightedItem: function(names, weights) {
 
@@ -27,8 +33,11 @@
       }
 
       var sum = 0;
+
+      // Get a random number between 0 and the total number of weights
       var n = utils.rand(0, total);
 
+      // Loop until we've encountered the first weight greater than our random number
       for (i = 0; i < names.length; i++) {
         sum += weights[i];
 
