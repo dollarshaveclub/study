@@ -79,7 +79,7 @@
       var names = Object.keys(data);
       var weights = [];
       for (var i = 0; i<names.length; i++) {
-        if(!data[names[i]].weight) data[names[i]].weight = 1;
+        if(typeof data[names[i]].weight == "undefined") data[names[i]].weight = 1;
         weights.push( data[names[i]].weight );
       }
 
