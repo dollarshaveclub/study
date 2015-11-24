@@ -108,7 +108,7 @@ describe('Tester', function() {
   });
 
 
-  it('should create an unequally weighted ABCD test', function() {
+  it('should create an unequally weighted ABCD test', function () {
 
     var passes = 10000;
     var tests = {
@@ -135,5 +135,38 @@ describe('Tester', function() {
     expect(utils.roughlyEqual((selected.bar/passes)*100, 27)).to.equal(true);
     expect(utils.roughlyEqual((selected.baz/passes)*100, 11)).to.equal(true);
     expect(utils.roughlyEqual((selected.wat/passes)*100, 44)).to.equal(true);
+  });
+
+  it('should create a test with 0% weighted buckets', function () {
+
+    var passes = 10;
+    var tests = {
+      foo: { weight: 0 },
+      bar: { weight: 0 },
+      baz: { weight: 1 },
+    };
+
+    var selected = {};
+    for(var i = 0; i<passes; i++) {
+
+      var chosen = new Test('my-test', tests, {
+        persist: false
+      });
+
+      if(!selected[chosen.bucket]) {
+        selected[chosen.bucket] = 0;
+      }
+      selected[chosen.bucket]++;
+    }
+    expect(selected.foo).to.be.undefined;
+    expect(selected.bar).to.be.undefined;
+    expect(selected.baz).to.equal(passes);
+  });
+
+  it('should create an inactive test', function () {
+    var chosen = new Test('my-test', {}, {
+      active: false
+    });
+    expect(chosen.active).to.equal(false);
   });
 });

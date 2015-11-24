@@ -10,7 +10,7 @@ gulp.task('default', function() {
     .pipe(jshint())
     .pipe(jshint.reporter('default', { verbose: true }))
     .pipe(uglify())
-    .pipe(rename('test-'+pkg.version+'.min.js'))
+    .pipe(rename('test.min.js'))
     .pipe(gulp.dest('build'))
 });
 

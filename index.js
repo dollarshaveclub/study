@@ -60,8 +60,16 @@
     // Ensure options exists
     options = options || {};
     options = {
-      persist: typeof options.persist !== "undefined" ? options.persist : true
+      persist: typeof options.persist !== "undefined" ? options.persist : true,
+      active: typeof options.active !== "undefined" ? options.active : true
     };
+
+    // Return if inactive
+    if (!options.active) {
+      return {
+        active: false
+      };
+    }
 
     // Set test name
     var storageKey = 'test-' + name;
@@ -90,18 +98,18 @@
       sessionStorage.setItem(storageKey, bucket);
     }
 
+    // We've now bucketed our user
     // Add classname
     document.body.classList.add(name);
     document.body.classList.add(bucket);
 
     // Call function if provided
-
     if (data[bucket]) {
       if (!data[bucket].chosen) data[bucket].chosen = Test.noop;
       data[bucket].chosen.call(this);
     }
 
-    // Record test with GTM
+    // Record test with GTM if possible
     if(typeof dataLayer !== "undefined") {
       var metrics = {
         abTests: {}
@@ -113,7 +121,8 @@
     // Return
     return {
       bucket: bucket,
-      data: data[bucket]
+      data: data[bucket],
+      active: true
     };
   };
 
