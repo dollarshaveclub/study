@@ -48,10 +48,11 @@ var data = {
 ```javascript
 var options = {
   persist: true // Set to false to not store test bucket in sessionStorage
+  active: true // Set to false to disable test execution completely
 };
 ```
 
-## Building tests
+## Creating tests
 ```javascript
 new Test('new-homepage', {
   control: {},
