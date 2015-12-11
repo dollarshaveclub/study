@@ -57,11 +57,14 @@
    */
   var Test = function(name, data, options) {
 
+    if(!name) { throw new Error('Tests must have a name'); }
+
     // Ensure options exists
     options = options || {};
     options = {
       persist: typeof options.persist !== "undefined" ? options.persist : true,
-      active: typeof options.active !== "undefined" ? options.active : true
+      active: typeof options.active !== "undefined" ? options.active : true,
+      chosen: typeof options.chosen !== "undefined" ? options.chosen : false
     };
 
     // Return if inactive
@@ -103,11 +106,22 @@
     document.body.classList.add(name);
     document.body.classList.add(bucket);
 
+    var info = {
+      bucket: bucket,
+      data: data[bucket],
+      active: true
+    };
+
+    if(options.chosen) console.log(options.chosen);
+
     // Call function if provided
     if (data[bucket]) {
       if (!data[bucket].chosen) data[bucket].chosen = Test.noop;
       data[bucket].chosen.call(this);
     }
+
+    // Call chosen function
+    if(options.chosen) { options.chosen.call(this, info); }
 
     // Record test with GTM if possible
     if(typeof dataLayer !== "undefined") {
@@ -119,11 +133,7 @@
     }
 
     // Return
-    return {
-      bucket: bucket,
-      data: data[bucket],
-      active: true
-    };
+    return info;
   };
 
   Test.noop = function() {};
