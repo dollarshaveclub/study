@@ -48,6 +48,15 @@ describe('Tester', function() {
 
   });
 
+  it('should create an AB test with metadata', function() {
+
+    var chosen = new Test('my-test', {
+      foo: { weight: 1, hello: 'world', brian: 'sucks' }
+    });
+    expect(chosen.data.hello).to.equal("world");
+    expect(chosen.data.brian).to.equal("sucks");
+  });
+
   it('should create a persistent AB test', function() {
 
     var passes = 10000;
