@@ -31,6 +31,22 @@ describe('Tester', function() {
     expect(document.body.classList.contains('foo')).to.equal(true);
   });
 
+  it('should call `chosen` on an AB test', function() {
+    var chosen = false;
+
+    new Test('test-1', {
+      foo: { weight: 1 },
+      bar: { weight: 0 }
+    }, {
+      chosen: function (info) {
+        chosen = true;
+        expect(info.bucket).to.equal('foo');
+      }
+    });
+
+    expect(chosen).to.equal(true);
+
+  });
 
   it('should create a persistent AB test', function() {
 
@@ -43,7 +59,7 @@ describe('Tester', function() {
     var selected = {};
     for(var i = 0; i<passes; i++) {
 
-      var chosen = new Test('my-test', tests);
+      var chosen = new Test('test-2', tests);
 
       if(!selected[chosen.bucket]) {
         selected[chosen.bucket] = 0;
@@ -67,7 +83,7 @@ describe('Tester', function() {
     var selected = {};
     for(var i = 0; i<passes; i++) {
 
-      var chosen = new Test('my-test', tests, {
+      var chosen = new Test('test-3', tests, {
         persist: false
       });
 
@@ -93,7 +109,7 @@ describe('Tester', function() {
     var selected = {};
     for(var i = 0; i<passes; i++) {
 
-      var chosen = new Test('my-test', tests, {
+      var chosen = new Test('test-4', tests, {
         persist: false
       });
 
@@ -121,7 +137,7 @@ describe('Tester', function() {
     var selected = {};
     for(var i = 0; i<passes; i++) {
 
-      var chosen = new Test('my-test', tests, {
+      var chosen = new Test('test-5', tests, {
         persist: false
       });
 
@@ -149,7 +165,7 @@ describe('Tester', function() {
     var selected = {};
     for(var i = 0; i<passes; i++) {
 
-      var chosen = new Test('my-test', tests, {
+      var chosen = new Test('test-6', tests, {
         persist: false
       });
 
@@ -164,7 +180,7 @@ describe('Tester', function() {
   });
 
   it('should create an inactive test', function () {
-    var chosen = new Test('my-test', {}, {
+    var chosen = new Test('test-7', {}, {
       active: false
     });
     expect(chosen.active).to.equal(false);

@@ -30,6 +30,7 @@ npm test # Run tests
   * `data` is an object whose keys represent test cases to be randomly chosen.
   * The keys can be any name that you want.
   * The available options for each test are an optional `weight`, a `Number`, and an optional `chosen`, a `Function`
+* `chosen`: Function to be executed when any test is chosen
 
 ```javascript
 var data = {
