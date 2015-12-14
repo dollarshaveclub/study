@@ -15,6 +15,7 @@ gulp.task('default', () => {
     .on('error', function (err) { console.error(err); })
     .pipe(source('test.min.js'))
     .pipe(buffer())
+    .pipe(uglify())
     .pipe(gulp.dest('build'));
 });
 
