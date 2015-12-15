@@ -7,13 +7,21 @@ import source from 'vinyl-source-stream';
 import uglify from 'gulp-uglify';
 
 gulp.task('default', () => {
-  var bundler = browserify('./index.js', {
-    standalone: 'Test'
-  });
-  bundler.transform(babelify);
-  bundler.bundle()
+
+  browserify('./index.js', { standalone: 'Test' })
+    .transform(babelify)
+    .bundle()
     .on('error', function (err) { console.error(err); })
     .pipe(source('test.min.js'))
+    .pipe(buffer())
+    .pipe(uglify())
+    .pipe(gulp.dest('build'));
+
+  browserify('./interface.js', { standalone: 'TestInterface' })
+    .transform(babelify)
+    .bundle()
+    .on('error', function (err) { console.error(err); })
+    .pipe(source('test-interface.min.js'))
     .pipe(buffer())
     .pipe(uglify())
     .pipe(gulp.dest('build'));
