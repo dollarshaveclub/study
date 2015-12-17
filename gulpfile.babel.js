@@ -31,19 +31,20 @@ gulp.task('default', () => {
 });
 
 gulp.task('do-watch', () => {
-  gulp.watch('lib/**/*.js', ['default']);
+  gulp.watch('lib/**/*.js', ['default', 'bookmarklet']);
 });
 
 gulp.task("bookmarklet", cb => {
-  var code = fs.readFileSync('./assets/README.md', 'utf-8');
-  var data = fs.readFileSync('./build/test-interface.min.js', 'utf-8');
-  var escaped = bookmarklet.convert(code);
+  var html = fs.readFileSync('./bookmarklet/index.html', 'utf-8');
+  var escaped = bookmarklet.convert('', {
+    script: ['http://dollarshaveclub.github.io/ab-tester.js/build/test-interface.min.js']
+  });
 
   fs.writeFile(
-    './README.md',
-    readme.replace('_BOOKMARKLET_', escaped),
+    './build/bookmarklet.html',
+    html.replace('_BOOKMARKLET_', escaped),
     cb
   );
 });
 
-gulp.task('watch', ['default', 'do-watch']);
+gulp.task('watch', ['default', 'bookmarklet', 'do-watch']);
