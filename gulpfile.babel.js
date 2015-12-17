@@ -26,11 +26,6 @@ gulp.task('default', () => {
     .pipe(source('test-interface.min.js'))
     .pipe(buffer())
     .pipe(uglify())
-
-    .pipe(function () {
-      console.log(arguments);
-    })
-
     .pipe(gulp.dest('build'));
 
 });
@@ -40,14 +35,15 @@ gulp.task('do-watch', () => {
 });
 
 gulp.task("bookmarklet", cb => {
+  var code = fs.readFileSync('./assets/README.md', 'utf-8');
   var data = fs.readFileSync('./build/test-interface.min.js', 'utf-8');
-  var code = bookmarklet.convert(data, {
+  var escaped = bookmarklet.convert(code);
 
-  });
-
-  var readme = fs.readFileSync('./assets/README.md', 'utf-8');
-  readme = readme.replace('_BOOKMARKLET_', code);
-  fs.writeFile('./README.md', readme, cb);
+  fs.writeFile(
+    './README.md',
+    readme.replace('_BOOKMARKLET_', escaped),
+    cb
+  );
 });
 
 gulp.task('watch', ['default', 'do-watch']);

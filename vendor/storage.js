@@ -1,15 +1,27 @@
+const supportsStorage = ((store) => {
+	if (!store) return false;
+  try {
+    store.setItem('a','a');
+    return true;
+  } catch(e) {
+    return false;
+  }
+})(window.localStorage);
+
 function Storage (type) {
+
   function createCookie(name, value, days) {
-    var date, expires;
+    let date
+    let expires;
 
     if (days) {
       date = new Date();
-      date.setTime(date.getTime()+(days*24*60*60*1000));
-      expires = "; expires="+date.toGMTString();
+      date.setTime(date.getTime() + (days*24*60*60*1000));
+      expires = `; expires=${date.toGMTString()}`;
     } else {
       expires = "";
     }
-    document.cookie = name+"="+value+expires+"; path=/";
+    document.cookie = `${name}=${value + expires}; path=/`;
   }
 
   function readCookie(name) {
@@ -89,6 +101,6 @@ function Storage (type) {
 };
 
 export default {
-  local: window.localStorage || new Storage('local'),
-  session: window.sessionStorage || new Storage('session')
+  local: supportsStorage ? window.localStorage : new Storage('local'),
+  session: supportsStorage ? window.sessionStorage : new Storage('session')
 };
