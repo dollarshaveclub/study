@@ -1,5 +1,7 @@
 # AB Tester
 
+An AB testing library that supports weights, callbacks, CSS based tests, persistence, and an interface.
+
 ## Developing
 ```bash
 npm install # Install dependencies

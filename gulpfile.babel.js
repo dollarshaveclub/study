@@ -1,6 +1,8 @@
 import babelify from 'babelify';
+import bookmarklet from 'bookmarklet';
 import browserify from 'browserify';
 import buffer from 'vinyl-buffer';
+import fs from 'fs';
 import gulp from 'gulp';
 import rename from 'gulp-rename';
 import source from 'vinyl-source-stream';
@@ -25,11 +27,24 @@ gulp.task('default', () => {
     .pipe(buffer())
     .pipe(uglify())
     .pipe(gulp.dest('build'));
+
 });
 
 gulp.task('do-watch', () => {
-  gulp.watch('lib/**/*.js', ['default']);
+  gulp.watch('lib/**/*.js', ['default', 'bookmarklet']);
 });
 
+gulp.task("bookmarklet", cb => {
+  var html = fs.readFileSync('./bookmarklet/index.html', 'utf-8');
+  var escaped = bookmarklet.convert('', {
+    script: ['http://dollarshaveclub.github.io/ab-tester.js/build/test-interface.min.js']
+  });
 
-gulp.task('watch', ['default', 'do-watch']);
+  fs.writeFile(
+    './build/bookmarklet.html',
+    html.replace('_BOOKMARKLET_', escaped),
+    cb
+  );
+});
+
+gulp.task('watch', ['default', 'bookmarklet', 'do-watch']);
