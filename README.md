@@ -1,6 +1,6 @@
 # AB Tester
 
-An AB testing library that supports weights, callbacks, CSS based tests, persistence, and an interface.
+An AB testing library that supports weights, callbacks, CSS based tests, persistence, <a href="http://dollarshaveclub.github.io/ab-tester.js/build/bookmarklet.html">and a bookmarklet interface.</a>
 
 ## Developing
 ```bash
