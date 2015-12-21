@@ -10,7 +10,8 @@
   "scripts": {
     "build": "./node_modules/gulp/bin/gulp.js",
     "build-watch": "./node_modules/gulp/bin/gulp.js watch",
-    "test": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs --reporter spec test/runner.html"
+    "test": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs --reporter spec test/runner.html",
+    "pages": "git push -f origin gh-pages"
   },
   "devDependencies": {
     "babelify": "^7.2.0",

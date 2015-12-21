@@ -1,1 +1,2 @@
-module.exports = require('./lib/interface').default;
+var TestInterface = require('./lib/interface').default;
+new TestInterface();
