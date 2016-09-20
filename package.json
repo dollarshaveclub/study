@@ -1,6 +1,6 @@
 {
   "name": "ab-tester",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "homepage": "https://github.com/dollarshaveclub/ab-tester.js",
   "main": "./index.js",
   "repository": {
@@ -28,5 +28,8 @@
     "sinon": "1.15.4",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "babel-preset-es2015": "^6.14.0"
   }
 }
