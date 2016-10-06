@@ -6,11 +6,14 @@ var utils = {
   }
 };
 
+beforeEach(function () {
+  window.dataLayer = [];
+});
+
 describe('Tester', function() {
 
   it('should create an AB test', function() {
 
-    window.dataLayer = [];
     var name = 'test-1';
     var didChoose = false;
 
@@ -193,5 +196,12 @@ describe('Tester', function() {
       active: false
     });
     expect(chosen.active).to.equal(false);
+  });
+
+  it('should dasherize test names when using metrics', function () {
+    var chosen = new Test('my-dasherized-test-name', {
+      foo: { weight: 1 },
+    });
+    expect('myDasherizedTestName' in window.dataLayer[0].abTests).to.equal(true);
   });
 });
