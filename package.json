@@ -1,6 +1,6 @@
 {
   "name": "ab-tester",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "homepage": "https://github.com/dollarshaveclub/ab-tester.js",
   "main": "./index.js",
   "repository": {
