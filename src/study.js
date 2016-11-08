@@ -1,11 +1,10 @@
-import storage from '../vendor/storage';
-import camelize from '../vendor/camelize';
-import getParam from '../vendor/get-param'
+import storage from '../lib/storage';
+import getParam from '../lib/get-param';
 
 const supportsClasslist = "classList" in document.createElement("_");
 const storageKey = 'ab-tests';
 
-class Test {
+class Study {
   constructor(name, data = {}, options = {}) {
     options = {
       persist: typeof options.persist !== "undefined" ? options.persist : true,
@@ -68,7 +67,7 @@ class Test {
 
       // Select a random weighted bucket
       } else {
-        bucket = Test.chooseWeightedItem(names, weights);
+        bucket = Study.chooseWeightedItem(names, weights);
       }
 
       // Save
@@ -96,7 +95,7 @@ class Test {
 
     // Call function if provided
     if (data[bucket]) {
-      if (!data[bucket].chosen) data[bucket].chosen = Test.noop;
+      if (!data[bucket].chosen) data[bucket].chosen = Study.noop;
       data[bucket].chosen.call(this);
     }
 
@@ -108,7 +107,7 @@ class Test {
       var metrics = {
         abTests: {}
       };
-      metrics.abTests[camelize(name)] = bucket;
+      metrics.abTests[name] = bucket;
       dataLayer.push(metrics);
     }
 
@@ -127,7 +126,7 @@ class Test {
     var sum = 0;
 
     // Get a random number between 0 and the total number of weights
-    var n = Test.rand(0, total);
+    var n = Study.rand(0, total);
 
     // Loop until we've encountered the first weight greater than our random number
     for (i = 0; i < names.length; i++) {
@@ -146,4 +145,4 @@ class Test {
   }
 }
 
-export default Test;
+export default Study;

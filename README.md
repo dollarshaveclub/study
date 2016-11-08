@@ -14,6 +14,10 @@
 [bower-image]: https://badge.fury.io/bo/study.svg
 [bower-url]: https://github.com/dollarshaveclub/study
 
+***
+
+* Lightweight, weighing in at ~ <span class="size">`4.8kb`</span>.
+
 ## Installing
 ```bash
 # Via NPM

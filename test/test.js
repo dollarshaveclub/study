@@ -8,6 +8,7 @@ var utils = {
 
 beforeEach(function () {
   window.dataLayer = [];
+  localStorage.clear();
 });
 
 describe('Tester', function() {
@@ -17,7 +18,7 @@ describe('Tester', function() {
     var name = 'test-1';
     var didChoose = false;
 
-    var chosen = new Test(name, {
+    var chosen = new Study(name, {
       foo: {
         weight: 1,
         chosen: function() {
@@ -30,14 +31,13 @@ describe('Tester', function() {
     expect(chosen.bucket).to.equal('foo');
     expect(dataLayer.length).to.equal(1);
     expect(dataLayer[0].abTests[name]).to.equal('foo');
-    expect(document.body.classList.contains(name)).to.equal(true);
-    expect(document.body.classList.contains('foo')).to.equal(true);
+    expect(document.body.classList.contains(name+'--foo')).to.equal(true);
   });
 
   it('should call `chosen` on an AB test', function() {
     var chosen = false;
 
-    new Test('test-1', {
+    new Study('test-1', {
       foo: { weight: 1 },
       bar: { weight: 0 }
     }, {
@@ -53,7 +53,7 @@ describe('Tester', function() {
 
   it('should create an AB test with metadata', function() {
 
-    var chosen = new Test('my-test', {
+    var chosen = new Study('my-test', {
       foo: { weight: 1, hello: 'world', brian: 'sucks' }
     });
     expect(chosen.data.hello).to.equal("world");
@@ -71,7 +71,7 @@ describe('Tester', function() {
     var selected = {};
     for(var i = 0; i<passes; i++) {
 
-      var chosen = new Test('test-2', tests);
+      var chosen = new Study('test-2', tests);
 
       if(!selected[chosen.bucket]) {
         selected[chosen.bucket] = 0;
@@ -95,7 +95,7 @@ describe('Tester', function() {
     var selected = {};
     for(var i = 0; i<passes; i++) {
 
-      var chosen = new Test('test-3', tests, {
+      var chosen = new Study('test-3', tests, {
         persist: false
       });
 
@@ -121,7 +121,7 @@ describe('Tester', function() {
     var selected = {};
     for(var i = 0; i<passes; i++) {
 
-      var chosen = new Test('test-4', tests, {
+      var chosen = new Study('test-4', tests, {
         persist: false
       });
 
@@ -149,7 +149,7 @@ describe('Tester', function() {
     var selected = {};
     for(var i = 0; i<passes; i++) {
 
-      var chosen = new Test('test-5', tests, {
+      var chosen = new Study('test-5', tests, {
         persist: false
       });
 
@@ -177,7 +177,7 @@ describe('Tester', function() {
     var selected = {};
     for(var i = 0; i<passes; i++) {
 
-      var chosen = new Test('test-6', tests, {
+      var chosen = new Study('test-6', tests, {
         persist: false
       });
 
@@ -192,16 +192,9 @@ describe('Tester', function() {
   });
 
   it('should create an inactive test', function () {
-    var chosen = new Test('test-7', {}, {
+    var chosen = new Study('test-7', {}, {
       active: false
     });
     expect(chosen.active).to.equal(false);
-  });
-
-  it('should dasherize test names when using metrics', function () {
-    var chosen = new Test('my-dasherized-test-name', {
-      foo: { weight: 1 },
-    });
-    expect('myDasherizedTestName' in window.dataLayer[0].abTests).to.equal(true);
   });
 });
