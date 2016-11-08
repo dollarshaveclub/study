@@ -1,5 +1,5 @@
 <a href="https://github.com/dollarshaveclub/study">
-  <img src="https://dollarshaveclub.github.io/study/assets/study-logo.svg">
+  <img src="https://dollarshaveclub.github.io/study/assets/study-v1.svg">
 </a>
 
 > An AB testing library that supports weights, callbacks, CSS based tests, persistence
