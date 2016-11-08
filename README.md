@@ -1,6 +1,30 @@
-# AB Tester
+<a href="https://github.com/dollarshaveclub/study">
+  <img src="https://dollarshaveclub.github.io/study/assets/study-logo.svg">
+</a>
 
-An AB testing library that supports weights, callbacks, CSS based tests, persistence, <a href="http://dollarshaveclub.github.io/ab-tester.js/build/bookmarklet.html">and a bookmarklet interface.</a>
+> An AB testing library that supports weights, callbacks, CSS based tests, persistence
+
+[![npm][npm-image]][npm-url]
+[![bower][bower-image]][bower-url]
+[![Build Status](https://travis-ci.org/dollarshaveclub/study.svg?branch=master)](https://travis-ci.org/dollarshaveclub/postmate)
+[![Share](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](#)
+
+[npm-image]: https://badge.fury.io/js/studyjs.svg
+[npm-url]: https://www.npmjs.com/package/studyjs
+[bower-image]: https://badge.fury.io/bo/study.svg
+[bower-url]: https://github.com/dollarshaveclub/study
+
+## Installing
+```bash
+# Via NPM
+npm i studyjs --save-dev
+
+# Via Bower
+bower i studyjs --save-dev
+
+# Via Yarn
+yarn add studyjs
+```
 
 ## Developing
 ```bash

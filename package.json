@@ -1,17 +1,18 @@
 {
-  "name": "ab-tester",
-  "version": "1.1.1",
-  "homepage": "https://github.com/dollarshaveclub/ab-tester.js",
+  "name": "studyjs",
+  "version": "1.1.2",
+  "homepage": "https://github.com/dollarshaveclub/study",
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/dollarshaveclub/ab-tester.js.git"
+    "url": "git://github.com/dollarshaveclub/study.git"
   },
   "scripts": {
     "build": "./node_modules/gulp/bin/gulp.js",
     "build-watch": "./node_modules/gulp/bin/gulp.js watch",
     "test": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs --reporter spec test/runner.html",
-    "pages": "git push -f origin gh-pages"
+    "pages": "git push -f origin gh-pages",
+    "postpublish": "git tag $npm_package_version && git push origin --tags"
   },
   "devDependencies": {
     "babelify": "^7.2.0",
