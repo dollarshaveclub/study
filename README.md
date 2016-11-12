@@ -16,7 +16,7 @@
 
 ***
 
-* Lightweight, weighing in at ~ <span class="size">`4.9kb`</span>.
+* Lightweight, weighing in at ~ <span class="size">`4.4kb`</span>.
 
 ## Installing
 ```bash
