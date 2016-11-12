@@ -2,6 +2,13 @@
   "extends": [
     "airbnb/base"
   ],
+  "plugins": [
+    'dollarshaveclub'
+  ],
+  "env": {
+    "browser": true
+  },
   "globals": {
+    "dataLayer": true
   }
 }

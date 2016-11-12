@@ -1,23 +1,41 @@
 import storage from '../lib/storage';
 import getParam from '../lib/get-param';
 
-const supportsClasslist = "classList" in document.createElement("_");
+const supportsClasslist = 'classList' in document.createElement('_');
 const storageKey = 'ab-tests';
+const noop = () => {};
+const rand = (min, max) => Math.random() * ((max - min) + min);
+
+
+const chooseWeightedItem = (names, weights) => {
+  // Total out the number of weights
+  const total = weights.reduce((a, b) => a + b);
+  let limit = 0;
+
+  // Get a random number between 0 and the total number of weights
+  const n = rand(0, total);
+
+  // Loop until we've encountered the first weight greater than our random number
+  for (let i = 0; i < names.length; i += 1) {
+    limit += weights[i];
+
+    if (n <= limit) {
+      return names[i];
+    }
+  }
+  return '';
+};
 
 class Study {
-  constructor(name, data = {}, options = {}) {
-    options = {
-      persist: typeof options.persist !== "undefined" ? options.persist : true,
-      active: typeof options.active !== "undefined" ? options.active : true,
-      chosen: typeof options.chosen !== "undefined" ? options.chosen : false
-    };
+  constructor(name, defaultData = {}, { persist = true, active = true, chosen = noop } = {}) {
+    const data = defaultData;
 
-    if(!name) { throw new Error('Tests must have a name'); }
+    if (!name) { throw new Error('Tests must have a name'); }
 
     // Return if inactive
-    if (!options.active) {
+    if (!active) {
       return {
-        active: false
+        active: false,
       };
     }
 
@@ -37,43 +55,42 @@ class Study {
 
     // Grab assignment via query param. Syntax:
     // ?assign=test:bucket
-    const [assignTest, assignBucket]  = (getParam('assign') || '').split(':');
+    const [assignTest, assignBucket] = (getParam('assign') || '').split(':');
     const assignmentMatchesName = assignTest === name;
     const isValidBucket = assignBucket in data;
 
-    const useStoredAssignment = options.persist && tests[name];
+    const useStoredAssignment = persist && tests[name];
     const shouldAssign = (assignmentMatchesName && isValidBucket) || !useStoredAssignment;
 
     // Retrieve Bucket from storage if possible
     if (!shouldAssign) {
       bucket = tests[name].bucket;
-    }
-
-    // Determine bucket
-    else {
-
+    } else {
+      // Determine Bucket
       // Get a list of test names and test weights
-      let names = Object.keys(data);
-      let weights = [];
-      for (var i = 0; i < names.length; i++) {
-        if (typeof data[names[i]].weight == "undefined")
-          data[names[i]].weight = 1;
-        weights.push( data[names[i]].weight );
-      }
+      const names = Object.keys(data);
+      const weights = [];
+
+      names.forEach((bucketName) => {
+        if (typeof data[bucketName].weight === 'undefined') {
+          data[bucketName].weight = 1;
+        }
+        weights.push(data[bucketName].weight);
+      });
 
       // Use query param assignment if possible
       if (assignmentMatchesName && isValidBucket) {
-        bucket = assignBucket
+        bucket = assignBucket;
 
       // Select a random weighted bucket
       } else {
-        bucket = Study.chooseWeightedItem(names, weights);
+        bucket = chooseWeightedItem(names, weights);
       }
 
       // Save
       tests[name] = {
-        bucket: bucket,
-        buckets: Object.keys(data)
+        bucket,
+        buckets: Object.keys(data),
       };
       storage.local.setItem(storageKey, JSON.stringify(tests));
     }
@@ -87,25 +104,25 @@ class Study {
       document.body.className += ` ${className}`;
     }
 
-    let info = {
-      bucket: bucket,
+    const info = {
+      bucket,
       data: data[bucket],
-      active: true
+      active: true,
     };
 
     // Call function if provided
     if (data[bucket]) {
-      if (!data[bucket].chosen) data[bucket].chosen = Study.noop;
+      if (!data[bucket].chosen) data[bucket].chosen = noop;
       data[bucket].chosen.call(this);
     }
 
     // Call chosen function
-    if (options.chosen) { options.chosen.call(this, info); }
+    if (chosen) { chosen.call(this, info); }
 
     // Record test with GTM if possible
-    if(typeof dataLayer !== "undefined") {
-      var metrics = {
-        abTests: {}
+    if (typeof dataLayer !== 'undefined') {
+      const metrics = {
+        abTests: {},
       };
       metrics.abTests[name] = bucket;
       dataLayer.push(metrics);
@@ -113,35 +130,6 @@ class Study {
 
     // Return
     return info;
-  }
-
-  static chooseWeightedItem (names, weights) {
-
-    // Total out the number of weights
-    var total = 0, i;
-    for(i = 0; i < weights.length; i++) {
-      total += weights[i];
-    }
-
-    var sum = 0;
-
-    // Get a random number between 0 and the total number of weights
-    var n = Study.rand(0, total);
-
-    // Loop until we've encountered the first weight greater than our random number
-    for (i = 0; i < names.length; i++) {
-      sum += weights[i];
-
-      if (n <= sum) {
-        return names[i];
-      }
-    }
-  }
-
-  static noop () {}
-
-  static rand (min, max) {
-    return Math.random() * (max - min) + min;
   }
 }
 
