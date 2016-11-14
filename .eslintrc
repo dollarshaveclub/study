@@ -2,8 +2,8 @@
   "extends": [
     "airbnb/base"
   ],
-  "plugins": [
-    'dollarshaveclub'
+  "ignores": [
+    "./lib/*.js"
   ],
   "env": {
     "browser": true

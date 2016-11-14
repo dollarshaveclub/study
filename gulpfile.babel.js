@@ -3,7 +3,6 @@ const fs = require('fs');
 const gulp = require('gulp');
 const header = require('gulp-header');
 const path = require('path');
-const rename = require('gulp-rename');
 
 const rollup = require('rollup-stream');
 const source = require('vinyl-source-stream');
@@ -35,15 +34,7 @@ gulp.task('do-build', () =>
   })
     .pipe(source('study.min.js'))
     .pipe(header(banner, { pkg }))
-    .pipe(gulp.dest('./build'))
-  // gulp.src('./src/study.js')
-  //   .pipe(babel())
-  //   .pipe(rename('study.js'))
-  //   .pipe(gulp.dest('./build'))
-  //   .pipe(uglify())
-  //   .pipe(header(banner, { pkg }))
-  //   .pipe(rename('study.min.js'))
-  //   .pipe(gulp.dest('./build'))
+    .pipe(gulp.dest('./build')),
 );
 
 gulp.task('update-readme', ['do-build'], () => {
@@ -56,11 +47,10 @@ gulp.task('update-readme', ['do-build'], () => {
 });
 
 gulp.task('lint', () =>
-  true
-  // gulp.src(['**/*.js', '!node_modules/**', '!build/**'])
-  //   .pipe(eslint())
-  //   .pipe(eslint.format())
-  //   .pipe(eslint.failAfterError())
+  gulp.src(['src/study.js', 'gulpfile.babel.js'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError()),
 );
 
 gulp.task('do-watch', () => {

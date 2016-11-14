@@ -6,7 +6,7 @@ var utils = {
   }
 };
 
-beforeEach(function () {
+beforeEach(function beforEachTest() {
   window.dataLayer = [];
   localStorage.clear();
 });
