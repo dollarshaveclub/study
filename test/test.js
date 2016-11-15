@@ -9,74 +9,98 @@ var utils = {
 beforeEach(function beforEachTest() {
   window.dataLayer = [];
   localStorage.clear();
+  document.body.className = '';
 });
 
-describe('Tester', function() {
+describe('Study', function() {
 
   it('should create an AB test', function() {
 
     var name = 'test-1';
     var didChoose = false;
 
-    var chosen = new Study(name, {
-      foo: {
-        weight: 1,
-        chosen: function() {
-          didChoose = true;
-        }
-      }
+    var test = new Study();
+    test.define({
+      name: name,
+      buckets: {
+        foo: {
+          weight: 1,
+        },
+      },
     });
+    test.assign();
+    var info = test.assignments();
 
-    expect(didChoose).to.equal(true);
-    expect(chosen.bucket).to.equal('foo');
-    expect(dataLayer.length).to.equal(1);
-    expect(dataLayer[0].abTests[name]).to.equal('foo');
+    expect(info[name]).to.equal('foo');
     expect(document.body.classList.contains(name+'--foo')).to.equal(true);
   });
 
-  it('should call `chosen` on an AB test', function() {
-    var chosen = false;
-
-    new Study('test-1', {
-      foo: { weight: 1 },
-      bar: { weight: 0 }
-    }, {
-      chosen: function (info) {
-        chosen = true;
-        expect(info.bucket).to.equal('foo');
+  it('should create multiple AB tests', function() {
+    var test = new Study();
+    test.define([
+      {
+        name: 'test-multi-1',
+        buckets: {
+          foo: { weight: 1 },
+        },
+      }, {
+        name: 'test-multi-2',
+        buckets: {
+          bar: { weight: 1 },
+        },
       }
-    });
+    ]);
+    test.assign();
+    var info = test.assignments();
 
-    expect(chosen).to.equal(true);
-
+    expect(info['test-multi-1']).to.equal('foo');
+    expect(info['test-multi-2']).to.equal('bar');
+    expect(document.body.classList.contains('test-multi-1--foo')).to.equal(true);
+    expect(document.body.classList.contains('test-multi-2--bar')).to.equal(true);
   });
 
   it('should create an AB test with metadata', function() {
-
-    var chosen = new Study('my-test', {
-      foo: { weight: 1, hello: 'world', brian: 'sucks' }
+    var test = new Study();
+    test.define({
+      name: 'my-test',
+      buckets: {
+        foo: { weight: 1, hello: 'world', brian: 'sucks' },
+      },
     });
-    expect(chosen.data.hello).to.equal("world");
-    expect(chosen.data.brian).to.equal("sucks");
+
+    test.assign();
+    var defs = test.definitions();
+    var buckets = test.assignments();
+    var bucket = buckets['my-test'];
+
+    expect(defs.buckets[bucket].hello).to.equal("world");
+    expect(defs.buckets[bucket].brian).to.equal("sucks");
   });
 
   it('should create a persistent AB test', function() {
 
     var passes = 10000;
-    var tests = {
+    var buckets = {
       foo: { weight: 5 },
       bar: { weight: 5 }
     };
 
     var selected = {};
-    for(var i = 0; i<passes; i++) {
+    for(var i = 0; i < passes; i++) {
 
-      var chosen = new Study('test-2', tests);
+      var test = new Study();
+      test.define({
+        name: 'test-2',
+        buckets: buckets,
+      });
+      test.assign();
+      var buckets = test.assignments();
+      var bucket = buckets['test-2'];
 
-      if(!selected[chosen.bucket]) {
-        selected[chosen.bucket] = 0;
+      if(!selected[bucket]) {
+        selected[bucket] = 0;
       }
-      selected[chosen.bucket]++;
+      selected[bucket]++;
     }
 
     var keys = Object.keys(selected);
@@ -84,79 +108,111 @@ describe('Tester', function() {
   });
 
 
+
   it('should create an equally weighted AB test', function() {
 
     var passes = 10000;
-    var tests = {
-      foo: { weight: 1 },
-      bar: { weight: 1 }
-    };
 
     var selected = {};
-    for(var i = 0; i<passes; i++) {
+    for(var i = 0; i < passes; i++) {
 
-      var chosen = new Study('test-3', tests, {
-        persist: false
+      var test = new Study({
+        store: {
+          get: () => {},
+          set: () => {},
+        }
       });
 
-      if(!selected[chosen.bucket]) {
-        selected[chosen.bucket] = 0;
+      test.define({
+        name: 'test-3',
+        buckets: {
+          foo: { weight: 1 },
+          bar: { weight: 1 }
+        },
+      });
+
+      test.assign();
+      var buckets = test.assignments();
+      var bucket = buckets['test-3'];
+
+      if(!selected[bucket]) {
+        selected[bucket] = 0;
       }
-      selected[chosen.bucket]++;
+      selected[bucket]++;
     }
 
     expect(utils.roughlyEqual((selected.foo/passes)*100, 50)).to.equal(true);
     expect(utils.roughlyEqual((selected.bar/passes)*100, 50)).to.equal(true);
   });
 
-
   it('should create an unequally weighted AB test', function() {
 
     var passes = 10000;
-    var tests = {
-      foo: { weight: 3 },
-      bar: { weight: 1 }
-    };
 
     var selected = {};
-    for(var i = 0; i<passes; i++) {
+    for(var i = 0; i < passes; i++) {
 
-      var chosen = new Study('test-4', tests, {
-        persist: false
+      var test = new Study({
+        store: {
+          get: () => {},
+          set: () => {},
+        }
       });
 
-      if(!selected[chosen.bucket]) {
-        selected[chosen.bucket] = 0;
+      test.define({
+        name: 'test-4',
+        buckets: {
+          foo: { weight: 3 },
+          bar: { weight: 1 }
+        }
+      });
+
+      test.assign();
+      var buckets = test.assignments();
+      var bucket = buckets['test-4'];
+
+      if(!selected[bucket]) {
+        selected[bucket] = 0;
       }
-      selected[chosen.bucket]++;
+      selected[bucket]++;
     }
 
     expect(utils.roughlyEqual((selected.foo/passes)*100, 75)).to.equal(true);
     expect(utils.roughlyEqual((selected.bar/passes)*100, 25)).to.equal(true);
   });
 
-
   it('should create an unequally weighted ABCD test', function () {
 
     var passes = 10000;
-    var tests = {
-      foo: { weight: 3 },
-      bar: { weight: 5 },
-      baz: { weight: 2 },
-      wat: { weight: 8 }
-    };
 
     var selected = {};
-    for(var i = 0; i<passes; i++) {
+    for(var i = 0; i < passes; i++) {
 
-      var chosen = new Study('test-5', tests, {
-        persist: false
+      var test = new Study({
+        store: {
+          get: () => {},
+          set: () => {},
+        }
       });
 
-      if(!selected[chosen.bucket]) {
-        selected[chosen.bucket] = 0;
+      test.define({
+        name: 'test-5',
+        buckets: {
+          foo: { weight: 3 },
+          bar: { weight: 5 },
+          baz: { weight: 2 },
+          wat: { weight: 8 }
+        }
+      });
+
+      test.assign();
+      var buckets = test.assignments();
+      var bucket = buckets['test-5'];
+
+      if(!selected[bucket]) {
+        selected[bucket] = 0;
       }
-      selected[chosen.bucket]++;
+      selected[bucket]++;
     }
 
     expect(utils.roughlyEqual((selected.foo/passes)*100, 16)).to.equal(true);
@@ -168,33 +224,38 @@ describe('Tester', function() {
   it('should create a test with 0% weighted buckets', function () {
 
     var passes = 10;
-    var tests = {
-      foo: { weight: 0 },
-      bar: { weight: 0 },
-      baz: { weight: 1 },
-    };
 
     var selected = {};
-    for(var i = 0; i<passes; i++) {
+    for(var i = 0; i < passes; i++) {
 
-      var chosen = new Study('test-6', tests, {
-        persist: false
+      var test = new Study({
+        store: {
+          get: () => {},
+          set: () => {},
+        }
       });
 
-      if(!selected[chosen.bucket]) {
-        selected[chosen.bucket] = 0;
+      test.define({
+        name: 'test-6',
+        buckets: {
+          foo: { weight: 0 },
+          bar: { weight: 0 },
+          baz: { weight: 1 },
+        }
+      });
+
+      test.assign();
+      var buckets = test.assignments();
+      var bucket = buckets['test-6'];
+
+      if(!selected[bucket]) {
+        selected[bucket] = 0;
       }
-      selected[chosen.bucket]++;
+      selected[bucket]++;
     }
+
     expect(selected.foo).to.be.undefined;
     expect(selected.bar).to.be.undefined;
     expect(selected.baz).to.equal(passes);
-  });
-
-  it('should create an inactive test', function () {
-    var chosen = new Study('test-7', {}, {
-      active: false
-    });
-    expect(chosen.active).to.equal(false);
   });
 });
