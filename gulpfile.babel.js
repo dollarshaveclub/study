@@ -53,9 +53,7 @@ gulp.task('lint', () =>
     .pipe(eslint.failAfterError()),
 );
 
-gulp.task('do-watch', () => {
-  gulp.watch('src/**/*.js', ['build']);
-});
+gulp.task('do-watch', () => gulp.watch('src/**/*.js', ['build']));
 
 gulp.task('build', ['lint', 'do-build', 'update-readme']);
 gulp.task('build-watch', ['build', 'do-watch']);
