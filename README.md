@@ -29,7 +29,7 @@ You can download the compiled javascript directly [here](/build/study.min.js)
 
 ## Features
 * Powerful, clear API
-* Many variations. ABCD tessting, etc
+* Many variations. ABCD testing
 * Intelligent weighted bucketing
 * Browser & Server support
 * Storage Drivers: `localStorage`, `cookies`, `memory`, or build your own
@@ -88,7 +88,8 @@ npm test # Run tests
 
 ## API
 
-> ### `Study(config)`
+> ## `Study(config)`
+
 ```javascript
 const study = new Study({
   debug: true,
@@ -102,11 +103,12 @@ const study = new Study({
 Name | Type | Description | Default
 :--- | :--- | :--- | :---
 `debug` | `Boolean` | _Set to `true` to enable logging of additional information_ | `false`
-`store` | `Object` | _An object with get/set properties that will accept information to help persist and retrieve tests_ | `Study.stores.local
+`store` | `Object` | _An object with get/set properties that will accept information to help persist and retrieve tests_ | `Study.stores.local`
 
 ***
 
-> ### `study.define(testData)`
+> ## `study.define(testData)`
+
 ```javascript
 // Create your test API
 const study = new Study();
@@ -134,7 +136,8 @@ Name | Type | Description | Default
 
 ***
 
-> ### `study.assign(testName, bucketName)`
+> ## `study.assign(testName, bucketName)`
+
 ```javascript
 const study = new Study();
 study.define({
@@ -170,7 +173,8 @@ Name | Type | Description | Default
 
 ***
 
-> ### `study.definitions()`
+> ## `study.definitions()`
+
 ```javascript
 const study = new Study();
 study.define({
@@ -192,7 +196,8 @@ const tests = study.definitions();
 
 ***
 
-> ### `study.assignments()`
+> ## `study.assignments()`
+
 ```javascript
 const study = new Study();
 study.define({
