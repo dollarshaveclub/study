@@ -80,13 +80,26 @@ class Study {
    * @type {Function}
    * @param {Boolean} isDry If true, will not persist test buckets
    */
-  assign() {
+  assign(testName, bucketName) {
+    const oldAssignments = this.assignments();
     this.userAssignments = {};
     this.providedTests.forEach((test) => {
       const shouldPersist = test.name in this.userBuckets;
+      const shouldBucket = bucketName && testName && testName === test.name;
+      const shouldSkipTest = testName && test.name !== testName;
+      const shouldRemoveBucket = bucketName === null;
       let bucket;
 
-      if (shouldPersist) {
+      // Don't bucket a different test if we're specifying one
+      if (shouldSkipTest) return;
+
+      // Specify bucket
+      if (shouldRemoveBucket) {
+        bucket = bucketName;
+      } else if (shouldBucket) {
+        // Restore a persisted bucket
+        bucket = bucketName;
+      } else if (shouldPersist) {
         // Restore a persisted bucket
         bucket = this.userBuckets[test.name];
       } else {
@@ -103,12 +116,17 @@ class Study {
         bucket = chooseWeightedItem(names, weights);
       }
 
-      if (!isServer) { document.body.classList.add(`${test.name}--${bucket}`); }
-
-      // Add to our assignments
-      this.userAssignments[test.name] = bucket;
+      if (shouldRemoveBucket) {
+        console.log("REMOVING");
+        if (!isServer) { document.body.classList.remove(`${test.name}--${oldAssignments[test.name]}`); }
+        delete this.userAssignments[test.name];
+      } else {
+        // Add to our assignments
+        if (!isServer) { document.body.classList.add(`${test.name}--${bucket}`); }
+        this.userAssignments[test.name] = bucket;
+      }
     });
-
+    // console.log(testName, this.userAssignments);
     // Persist buckets
     this.persist(this.userAssignments);
   }
