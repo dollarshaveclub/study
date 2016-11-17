@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "airbnb/base"
+  ],
+  "ignores": [
+    "./lib/*.js"
+  ],
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "dataLayer": true
+  }
+}

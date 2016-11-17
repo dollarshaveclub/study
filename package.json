@@ -1,36 +1,43 @@
 {
   "name": "studyjs",
-  "version": "1.1.2",
+  "version": "2.0.0",
+  "author": "Jacob Kelley <jacob.kelley@dollarshaveclub.com>",
   "homepage": "https://github.com/dollarshaveclub/study",
-  "main": "./index.js",
+  "description": "A client side A/B tester",
+  "license": "MIT",
+  "main": "./build/study.min.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/dollarshaveclub/study.git"
   },
   "scripts": {
-    "build": "./node_modules/gulp/bin/gulp.js",
-    "build-watch": "./node_modules/gulp/bin/gulp.js watch",
-    "test": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs --reporter spec test/runner.html",
-    "pages": "git push -f origin gh-pages",
+    "build": "./node_modules/gulp/bin/gulp.js build",
+    "build-watch": "./node_modules/gulp/bin/gulp.js build-watch",
+    "lint": "./node_modules/gulp/bin/gulp.js lint",
+    "test": "open http://localhost:8000/test/runner.html && python -m SimpleHTTPServer",
+    "pages": "git push -f origin master:gh-pages",
     "postpublish": "git tag $npm_package_version && git push origin --tags"
   },
-  "devDependencies": {
-    "babelify": "^7.2.0",
-    "bookmarklet": "0.0.4",
-    "browserify": "^12.0.1",
+  "dependencies": {
+    "babel-plugin-transform-class-properties": "^6.18.0",
+    "babel-preset-es2015": "6.9.0",
+    "babel-preset-es2015-rollup": "1.1.1",
     "chai": "3.2.0",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-dollarshaveclub": "^1.0.2",
+    "eslint-plugin-import": "^2.2.0",
     "gulp": "^3.9.0",
-    "gulp-jshint": "^1.11.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.2.0",
+    "gulp-eslint": "^3.0.1",
+    "gulp-header": "^1.8.8",
     "jquery": "^2.1.4",
     "mocha": "2.2.5",
     "mocha-phantomjs": "3.6.0",
+    "phantomjs": "^2.1.7",
+    "rollup-plugin-babel": "2.6.1",
+    "rollup-plugin-uglify": "^1.0.1",
+    "rollup-stream": "^1.11.0",
     "sinon": "1.15.4",
-    "vinyl-buffer": "^1.0.0",
+    "uglify-js": "^2.7.4",
     "vinyl-source-stream": "^1.1.0"
-  },
-  "dependencies": {
-    "babel-preset-es2015": "^6.14.0"
   }
 }

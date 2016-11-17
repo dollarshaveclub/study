@@ -1,0 +1,20 @@
+{
+  "name": "studyjs",
+  "homepage": "https://github.com/dollarshaveclub/study",
+  "authors": [
+    "Jacob Kelley <jacob.kelley@dollarshaveclub.com>"
+  ],
+  "description": "A client side A/B tester",
+  "main": "build/study.min.js",
+  "keywords": [
+
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "assets",
+    "test",
+    "tests"
+  ]
+}
