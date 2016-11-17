@@ -1,6 +1,5 @@
 const isServer = !!(typeof module !== 'undefined' && module.exports);
 const storageKey = 'ab-tests';
-const noop = () => {};
 const rand = (min, max) => Math.random() * ((max - min) + min);
 
 const chooseWeightedItem = (names, weights) => {
@@ -41,10 +40,13 @@ class Study {
     this.userAssignments = {};
     this.providedTests = [];
 
-    let userBuckets = this.store.get(storageKey);
+    const userBuckets = this.store.get(storageKey);
     if (userBuckets) {
-      try { this.userBuckets = JSON.parse(userBuckets); }
-      catch (e) {}
+      try {
+        this.userBuckets = JSON.parse(userBuckets);
+      } catch (e) {
+        this.userBuckets = {};
+      }
     }
   }
 
@@ -57,7 +59,7 @@ class Study {
     let normalizedData = data;
     if (!Array.isArray(data)) { normalizedData = [data]; }
 
-    normalizedData.forEach(test => {
+    normalizedData.forEach((test) => {
       if (!test.name) { throw new Error('Tests must have a name'); }
       if (!test.buckets) { throw new Error('Tests must have buckets'); }
       if (!Object.keys(test.buckets)) { throw new Error('Tests must have buckets'); }
@@ -107,17 +109,17 @@ class Study {
         const names = Object.keys(test.buckets);
         const weights = [];
 
-        names.forEach(bucketName => {
-          if (typeof test.buckets[bucketName].weight == 'undefined') {
-            test.buckets[bucketName].weight = 1;
+        names.forEach((innerBucketName) => {
+          let weight = test.buckets[innerBucketName].weight;
+          if (typeof weight === 'undefined') {
+            weight = 1;
           }
-          weights.push(test.buckets[bucketName].weight)
+          weights.push(weight);
         });
         bucket = chooseWeightedItem(names, weights);
       }
 
       if (shouldRemoveBucket) {
-        console.log("REMOVING");
         if (!isServer) { document.body.classList.remove(`${test.name}--${oldAssignments[test.name]}`); }
         delete this.userAssignments[test.name];
       } else {
@@ -156,20 +158,24 @@ class Study {
    */
   static stores = {
     local: {
-      get: (key) => localStorage.getItem(key),
-      set: (key, val) => localStorage.setItem(key, val)
+      get: key => localStorage.getItem(key),
+      set: (key, val) => localStorage.setItem(key, val),
     },
-    memory: (function () {
-      var store = {};
+    memory: (function memoryStore() {
+      const store = {};
       return {
-        get: (key) => store[key],
-        set: (key, val) => store[key] = val,
-      }
-    })(),
+        get: key => store[key],
+        set: (key, val) => {
+          store[key] = val;
+        },
+      };
+    }()),
     browserCookie: {
-      get: (key) => decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(key).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null,
+      /*eslint-disable */
+      get: key => decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(key).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null,
       set: (key, val) => document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(val)}; expires=expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`
-    }
+      /*eslint-enable */
+    },
   };
 }
 
