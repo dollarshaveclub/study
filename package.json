@@ -14,7 +14,7 @@
     "build": "./node_modules/gulp/bin/gulp.js build",
     "build-watch": "./node_modules/gulp/bin/gulp.js build-watch",
     "lint": "./node_modules/gulp/bin/gulp.js lint",
-    "test": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs --reporter spec test/runner.html",
+    "test": "open http://localhost:8000/test/runner.html && python -m SimpleHTTPServer",
     "pages": "git push -f origin master:gh-pages",
     "postpublish": "git tag $npm_package_version && git push origin --tags"
   },
