@@ -328,4 +328,20 @@ describe('Study', function() {
     expect(selected.bar).to.be.undefined;
     expect(selected.baz).to.equal(passes);
   });
+
+  it('should persist data in the local store', function () {
+    const uid = Math.random();
+    Study.stores.local.set('test', uid);
+    expect(  Study.stores.local.get('test')).to.equal(uid.toString());
+  });
+  it('should persist data in the browserCookie store', function () {
+    const uid = Math.random();
+    Study.stores.browserCookie.set('test', uid);
+    expect(  Study.stores.browserCookie.get('test')).to.equal(uid.toString());
+  });
+  it('should persist data in the memory store', function () {
+    const uid = Math.random();
+    Study.stores.memory.set('test', uid);
+    expect(  Study.stores.memory.get('test')).to.equal(uid);
+  });
 });
