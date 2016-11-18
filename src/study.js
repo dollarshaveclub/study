@@ -84,7 +84,7 @@ class Study {
    */
   assign(testName, bucketName) {
     const oldAssignments = this.assignments();
-    this.userAssignments = {};
+
     this.providedTests.forEach((test) => {
       const shouldPersist = test.name in this.userBuckets;
       const shouldBucket = bucketName && testName && testName === test.name;

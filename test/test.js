@@ -107,6 +107,42 @@ describe('Study', function() {
     expect(document.body.classList.contains('test-multi-6--bar')).to.equal(true);
   });
 
+  it('should assign a bucket to a particular AB test with prior assignations', function() {
+    var test = new Study();
+    test.define([
+      {
+        name: 'test-multi-7',
+        buckets: {
+          a: { weight: 1 },
+          b: { weight: 0 },
+        },
+      }, {
+        name: 'test-multi-8',
+        buckets: {
+          c: { weight: 1 },
+          d: { weight: 0 },
+        },
+      }, {
+        name: 'test-multi-9',
+        buckets: {
+          e: { weight: 1 },
+          f: { weight: 0 },
+        },
+      }
+    ]);
+    test.assign();
+    var info = test.assignments();
+
+    expect(Object.keys(info).length).to.equal(3);
+    expect(info['test-multi-8']).to.equal('c');
+
+    test.assign('test-multi-8', 'd');
+    var info = test.assignments();
+
+    expect(Object.keys(info).length).to.equal(3);
+    expect(info['test-multi-8']).to.equal('d');
+  });
+
   it('should assign a bucket to a test, then remove it', function() {
     var test = new Study();
     test.define([
