@@ -1,5 +1,5 @@
 <a href="https://github.com/dollarshaveclub/study">
-  <img src="https://dollarshaveclub.github.io/study/assets/study-v1.svg">
+  <img src="https://dollarshaveclub.github.io/study/assets/study-v2.svg">
 </a>
 
 > A progressive, client/server AB testing library.
