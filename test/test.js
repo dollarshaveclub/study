@@ -153,14 +153,12 @@ describe('Study', function() {
     ]);
     test.assign();
     var info = test.assignments();
-    console.log('originalInfo', info);
     expect(info['test-to-remove-bucket-for']).to.equal('foo');
     expect(document.body.classList.contains('test-to-remove-bucket-for--foo')).to.equal(true);
 
     test.assign('test-to-remove-bucket-for', null);
 
     var updatedInfo = test.assignments();
-    console.log('updatedInfo', updatedInfo);
     expect(updatedInfo['test-to-remove-bucket-for']).to.equal(undefined);
     expect(document.body.classList.contains('test-to-remove-bucket-for--foo')).to.equal(false);
   });
@@ -226,6 +224,7 @@ describe('Study', function() {
         store: {
           get: () => {},
           set: () => {},
+          isSupported: () => true
         }
       });
 
@@ -262,6 +261,7 @@ describe('Study', function() {
         store: {
           get: () => {},
           set: () => {},
+          isSupported: () => true
         }
       });
 
@@ -298,6 +298,7 @@ describe('Study', function() {
         store: {
           get: () => {},
           set: () => {},
+          isSupported: () => true
         }
       });
 
@@ -338,6 +339,7 @@ describe('Study', function() {
         store: {
           get: () => {},
           set: () => {},
+          isSupported: () => true
         }
       });
 
@@ -379,5 +381,13 @@ describe('Study', function() {
     const uid = Math.random();
     Study.stores.memory.set('test', uid);
     expect(  Study.stores.memory.get('test')).to.equal(uid);
+  });
+
+  it('should fall back to memory store if local store isnt supported', function () {
+    Study.stores.local.isSupported = function () { return false; };
+    var test = new Study({
+      store: Study.stores.local,
+    });
+    expect(test.store.type).to.equal('memory');
   });
 });

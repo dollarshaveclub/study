@@ -36,6 +36,11 @@ class Study {
    */
   constructor({ store = Study.stores.local } = {}) {
     this.store = store;
+    if (!this.store.isSupported()) {
+      console.warn(`Provided store '${store.type}' is not supported. Falling back to 'memory' store`);
+      this.store = Study.stores.memory;
+    }
+
     this.userBuckets = {};
     this.userAssignments = {};
     this.providedTests = [];
@@ -128,7 +133,7 @@ class Study {
         this.userAssignments[test.name] = bucket;
       }
     });
-    // console.log(testName, this.userAssignments);
+
     // Persist buckets
     this.persist(this.userAssignments);
   }
@@ -158,23 +163,39 @@ class Study {
    */
   static stores = {
     local: {
+      type: 'local',
       get: key => localStorage.getItem(key),
       set: (key, val) => localStorage.setItem(key, val),
+      isSupported: () => {
+        if (typeof localStorage !== 'undefined') return true;
+        const uid = new Date();
+        try {
+          localStorage.setItem(uid, uid);
+          localStorage.removeItem(uid);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      },
     },
     memory: (function memoryStore() {
       const store = {};
       return {
+        type: 'memory',
         get: key => store[key],
         set: (key, val) => {
           store[key] = val;
         },
+        isSupported: () => true,
       };
     }()),
     browserCookie: {
+      type: 'browserCookie',
       /*eslint-disable */
       get: key => decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(key).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null,
-      set: (key, val) => document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(val)}; expires=expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`
+      set: (key, val) => document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(val)}; expires=expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`,
       /*eslint-enable */
+      isSupported: () => !isServer,
     },
   };
 }
