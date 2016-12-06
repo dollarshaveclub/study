@@ -1,6 +1,8 @@
 const isServer = !!(typeof module !== 'undefined' && module.exports);
 const storageKey = 'ab-tests';
-const rand = (min, max) => Math.random() * ((max - min) + min);
+const rand = (min, max) => (Math.random() * (max - min)) + min;
+
+window.rand = rand;
 
 const chooseWeightedItem = (names, weights) => {
   // Total out the number of weights
