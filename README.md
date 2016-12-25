@@ -34,7 +34,7 @@ You can download the compiled javascript directly [here](/build/study.min.js)
 * Browser & Server support
 * Storage Drivers: `localStorage`, `cookies`, `memory`, or build your own
 * Well documented, tested, and proven in high production environments
-* Lightweight, weighing in at ~ <span class="size">`4.4kb`</span>.
+* Lightweight, weighing in at ~ <span class="size">`3.4kb`</span>.
 * Not tested on animals
 
 ## Installing

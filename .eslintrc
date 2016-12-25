@@ -1,13 +1,16 @@
 {
   "parser": "babel-eslint",
   "rules": {
-    "no-confusing-arrow": "off"
+    "no-confusing-arrow": "off",
+    "no-console": "off",
+    "import/no-extraneous-dependencies": "off"
   },
   "extends": [
     "airbnb/base"
   ],
   "ignores": [
-    "./lib/*.js"
+    "./lib/*.js",
+    "./gulpfile.babel.js"
   ],
   "env": {
     "browser": true
