@@ -2,15 +2,13 @@ const isServer = !!(typeof module !== 'undefined' && module.exports);
 const storageKey = 'ab-tests';
 const rand = (min, max) => (Math.random() * (max - min)) + min;
 
-window.rand = rand;
-
 const chooseWeightedItem = (names, weights) => {
   // Total out the number of weights
   const total = weights.reduce((a, b) => a + b);
   let limit = 0;
 
   // Get a random number between 0 and the total number of weights
-  const n = rand(0, total);
+  const n = Math.random(0, total);
 
   // Loop until we've encountered the first weight greater than our random number
   for (let i = 0; i < names.length; i += 1) {
