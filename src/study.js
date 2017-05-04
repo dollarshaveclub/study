@@ -8,7 +8,7 @@ const chooseWeightedItem = (names, weights) => {
   let limit = 0;
 
   // Get a random number between 0 and the total number of weights
-  const n = Math.random(0, total);
+  const n = rand(0, total);
 
   // Loop until we've encountered the first weight greater than our random number
   for (let i = 0; i < names.length; i += 1) {
@@ -44,6 +44,7 @@ class Study {
     this.userBuckets = {};
     this.userAssignments = {};
     this.providedTests = [];
+    this.classList = {};
 
     const userBuckets = this.store.get(storageKey);
     if (userBuckets) {
@@ -125,14 +126,24 @@ class Study {
       }
 
       if (shouldRemoveBucket) {
-        if (!isServer) { document.body.classList.remove(`${test.name}--${oldAssignments[test.name]}`); }
+        this.classList[test.name] = null;
         delete this.userAssignments[test.name];
       } else {
         // Add to our assignments
-        if (!isServer) { document.body.classList.add(`${test.name}--${bucket}`); }
+        this.classList[test.name] = bucket;
         this.userAssignments[test.name] = bucket;
       }
     });
+
+    const applyClasses = () => {
+      Object.keys(this.classList).forEach((name) => {
+        if (this.classList[name]) document.body.classList.add(`${name}--${this.classList[name]}`);
+        else document.body.classList.remove(`${name}--${oldAssignments[name]}`);
+      });
+    };
+
+    if (!isServer && document.body) applyClasses();
+    else document.onload = applyClasses;
 
     // Persist buckets
     this.persist(this.userAssignments);
@@ -145,7 +156,7 @@ class Study {
    * a user has been placed in
    */
   assignments() {
-    return this.userAssignments;
+    return Object.assign({}, this.userAssignments);
   }
 
   /**
