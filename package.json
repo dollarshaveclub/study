@@ -1,6 +1,6 @@
 {
   "name": "studyjs",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "author": "Jacob Kelley <jacob.kelley@dollarshaveclub.com>",
   "homepage": "https://github.com/dollarshaveclub/study",
   "description": "A client side A/B tester",
