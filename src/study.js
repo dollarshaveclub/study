@@ -156,7 +156,7 @@ class Study {
    * a user has been placed in
    */
   assignments() {
-    return Object.assign({}, this.userAssignments);
+    return this.userAssignments;
   }
 
   /**
