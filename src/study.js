@@ -2,21 +2,31 @@ const isServer = !!(typeof module !== 'undefined' && module.exports);
 const storageKey = 'ab-tests';
 const rand = (min, max) => (Math.random() * (max - min)) + min;
 
+/**
+ * Randomly chooses a bucket, using the given weights.
+ *
+ * To visualize, arrange bucket weight intervals continuously along a number line.
+ * The total range equals the sum of the bucket weights (100 is best).
+ * Sections within the range represent each bucket.
+ * Walk the line a random distance to find the chosen bucket.
+ *
+ * Gets a random number between 0 and the sum of bucket weights (the range).
+ * Finds the bucket interval within the range containing our random number.
+ *
+ * We use a for loop instead of Array.reduce because we chose to structure
+ * our data as two parallel arrays.
+ *
+ * @param {Array} names       bucket names
+ * @param {Array} weights     bucket weights
+ * @return {String}           chosen bucket name
+ */
 const chooseWeightedItem = (names, weights) => {
-  // Total out the number of weights
-  const total = weights.reduce((a, b) => a + b);
+  const sum = weights.reduce((a, b) => a + b);
   let limit = 0;
-
-  // Get a random number between 0 and the total number of weights
-  const n = rand(0, total);
-
-  // Loop until we've encountered the first weight greater than our random number
+  const n = rand(0, sum);
   for (let i = 0; i < names.length; i += 1) {
     limit += weights[i];
-
-    if (n <= limit) {
-      return names[i];
-    }
+    if (n <= limit) return names[i];
   }
   return '';
 };
