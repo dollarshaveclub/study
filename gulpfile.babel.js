@@ -1,4 +1,4 @@
-const eslint = require('gulp-eslint');
+
 const fs = require('fs');
 const gulp = require('gulp');
 const header = require('gulp-header');
@@ -46,14 +46,7 @@ gulp.task('update-readme', ['do-build'], () => {
   fs.writeFileSync(readme, updated);
 });
 
-gulp.task('lint', () =>
-  gulp.src(['src/study.js', 'gulpfile.babel.js'])
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError()),
-);
-
 gulp.task('do-watch', () => gulp.watch('src/**/*.js', ['build']));
 
-gulp.task('build', ['lint', 'do-build', 'update-readme']);
+gulp.task('build', ['do-build', 'update-readme']);
 gulp.task('build-watch', ['build', 'do-watch']);
