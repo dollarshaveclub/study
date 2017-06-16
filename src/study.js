@@ -99,11 +99,14 @@ class Study {
    * @param {Boolean} isDry If true, will not persist test buckets
    */
   assign(testName, bucketName) {
-    const oldAssignments = this.assignments();
     const applyClasses = () => {
       Object.keys(this.classList).forEach((name) => {
+        const classesToRemove = document.body.className.split(/\s+/g)
+          .map(x => x.trim())
+          .filter(Boolean)
+          .filter(x => x.indexOf(`${name}--`) === 0);
+        classesToRemove.forEach(className => document.body.classList.remove(className));
         if (this.classList[name]) document.body.classList.add(`${name}--${this.classList[name]}`);
-        else document.body.classList.remove(`${name}--${oldAssignments[name]}`);
       });
       document.removeEventListener('DOMContentLoaded', applyClasses);
     };
