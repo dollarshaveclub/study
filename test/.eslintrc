@@ -1,0 +1,7 @@
+---
+env:
+  mocha: true
+globals:
+  chai: true
+rules:
+  no-unused-expressions: off

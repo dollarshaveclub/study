@@ -1,21 +1,13 @@
-{
-  "parser": "babel-eslint",
-  "rules": {
-    "no-confusing-arrow": "off",
-    "no-console": "off",
-    "import/no-extraneous-dependencies": "off"
-  },
-  "extends": [
-    "airbnb/base"
-  ],
-  "ignores": [
-    "./lib/*.js",
-    "./gulpfile.babel.js"
-  ],
-  "env": {
-    "browser": true
-  },
-  "globals": {
-    "dataLayer": true
-  }
-}
+---
+parser: babel-eslint
+extends: airbnb/base
+rules:
+  import/no-extraneous-dependencies: off
+  no-confusing-arrow: off
+  no-console: off
+  no-plusplus: off
+env:
+  browser: true
+globals:
+  dataLayer: true
+  Study: true
