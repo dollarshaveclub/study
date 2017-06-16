@@ -153,6 +153,7 @@ class Study {
       if (shouldRemoveBucket) {
         this.classList[test.name] = null;
         delete this.userAssignments[test.name];
+        delete this.persistedUserAssignments[test.name];
       } else {
         // Add to our assignments
         this.classList[test.name] = bucket;
@@ -168,7 +169,7 @@ class Study {
     else document.addEventListener('DOMContentLoaded', applyClasses);
 
     // Persist buckets
-    this.persist(this.userAssignments);
+    this.persist(this.persistedUserAssignments);
   }
 
   /**
