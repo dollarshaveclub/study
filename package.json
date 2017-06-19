@@ -5,13 +5,13 @@
   "homepage": "https://github.com/dollarshaveclub/study",
   "description": "A client side A/B tester",
   "license": "MIT",
-  "main": "./build/study.min.js",
+  "main": "./build/study.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/dollarshaveclub/study.git"
   },
   "scripts": {
-    "build": "NODE_ENV=production ./node_modules/.bin/webpack --optimize-minimize",
+    "build": "NODE_ENV=production ./node_modules/.bin/webpack",
     "lint": "eslint . --fix",
     "test": "jest --coverage --testEnvironment=jsdom",
     "pages": "git push -f origin master:gh-pages",
