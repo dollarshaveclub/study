@@ -10,10 +10,14 @@ export default class Study {
 
     if (!this.store) throw new Error('You must supply a store!');
 
+    this.previousAssignments = {};
     try {
-      this.previousAssignments = JSON.parse(this.store.get(this.storageKey)) || {};
+      const data = this.store.get(this.storageKey);
+      if (data && data[0] === '{') {
+        this.previousAssignments = JSON.parse(data);
+      }
     } catch (_) {
-      this.previousAssignments = {};
+      // ignore
     }
 
     this.userAssignments = {};
