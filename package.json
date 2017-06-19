@@ -28,6 +28,7 @@
     "babel-preset-env": "^1.5.2",
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.0.2",
+    "codecov": "^2.2.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-dollarshaveclub": "^1.0.2",
