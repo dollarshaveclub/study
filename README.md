@@ -4,9 +4,10 @@
 
 > A progressive, client/server AB testing library.
 
+[![CircleCI](https://circleci.com/gh/dollarshaveclub/study/tree/master.svg?style=svg)](https://circleci.com/gh/dollarshaveclub/study/tree/master)
+[![codecov](https://codecov.io/gh/dollarshaveclub/study/branch/master/graph/badge.svg)](https://codecov.io/gh/dollarshaveclub/study)
 [![npm][npm-image]][npm-url]
 [![bower][bower-image]][bower-url]
-[![Build Status](https://travis-ci.org/dollarshaveclub/study.svg?branch=master)](https://travis-ci.org/dollarshaveclub/postmate)
 [![Share](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](#)
 
 [npm-image]: https://badge.fury.io/js/studyjs.svg
