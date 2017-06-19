@@ -53,6 +53,7 @@ class Study {
 
     this.userBuckets = {};
     this.userAssignments = {};
+    this.persistedUserAssignments = {};
     this.providedTests = [];
     this.classList = {};
 
@@ -112,6 +113,7 @@ class Study {
     };
 
     this.providedTests.forEach((test) => {
+      const active = test.active !== false;
       const shouldPersist = test.name in this.userBuckets;
       const shouldBucket = bucketName && testName && testName === test.name;
       const shouldSkipTest = testName && test.name !== testName;
@@ -130,6 +132,12 @@ class Study {
       } else if (shouldPersist) {
         // Restore a persisted bucket
         bucket = this.userBuckets[test.name];
+      } else if (!active) {
+        // Non-active tests will use the default bucket or the first bucket
+        bucket = Object.keys(test.buckets).filter(bucketName => {
+          const bucket = test.buckets[bucketName];
+          return bucket.default || bucket.winner;
+        })[0] || Object.keys(test.buckets)[0];
       } else {
         // Determine Bucket
         const names = Object.keys(test.buckets);
@@ -148,10 +156,15 @@ class Study {
       if (shouldRemoveBucket) {
         this.classList[test.name] = null;
         delete this.userAssignments[test.name];
+        delete this.persistedUserAssignments[test.name];
       } else {
         // Add to our assignments
         this.classList[test.name] = bucket;
         this.userAssignments[test.name] = bucket;
+        // persist active tests or specifically assigned tests
+        if (active || testName === test.name) {
+          this.persistedUserAssignments[test.name] = bucket;
+        }
       }
     });
 
@@ -159,7 +172,7 @@ class Study {
     else document.addEventListener('DOMContentLoaded', applyClasses);
 
     // Persist buckets
-    this.persist(this.userAssignments);
+    this.persist(this.persistedUserAssignments);
   }
 
   /**
