@@ -11,7 +11,7 @@ export default class Study {
     if (!this.store) throw new Error('You must supply a store!');
 
     try {
-      this.previousAssignments = JSON.parse(this.store.get(this.storageKey));
+      this.previousAssignments = JSON.parse(this.store.get(this.storageKey)) || {};
     } catch (_) {
       this.previousAssignments = {};
     }
