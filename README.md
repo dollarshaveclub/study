@@ -4,9 +4,10 @@
 
 > A progressive, client/server AB testing library.
 
+[![CircleCI](https://circleci.com/gh/dollarshaveclub/study/tree/master.svg?style=svg)](https://circleci.com/gh/dollarshaveclub/study/tree/master)
+[![codecov](https://codecov.io/gh/dollarshaveclub/study/branch/master/graph/badge.svg)](https://codecov.io/gh/dollarshaveclub/study)
 [![npm][npm-image]][npm-url]
 [![bower][bower-image]][bower-url]
-[![Build Status](https://travis-ci.org/dollarshaveclub/study.svg?branch=master)](https://travis-ci.org/dollarshaveclub/postmate)
 [![Share](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](#)
 
 [npm-image]: https://badge.fury.io/js/studyjs.svg
@@ -16,7 +17,7 @@
 
 Study is an AB testing library designed to be clear, minimal, and flexible. It works in both the server and browser with the use of driver-based persistence layers.
 
-You can download the compiled javascript directly [here](/build/study.min.js)
+You can download the compiled javascript directly [here](/build/study.js)
 
 * [Features](#features)
 * [Installing](#installing)
@@ -60,7 +61,7 @@ npm test # Run tests
 
 ## Usage
 ```html
-<script src="study.min.js"></script>
+<script src="study.js"></script>
 <script>
 
   // Set up our test API

@@ -5,7 +5,7 @@
     "Jacob Kelley <jacob.kelley@dollarshaveclub.com>"
   ],
   "description": "A client side A/B tester",
-  "main": "build/study.min.js",
+  "main": "build/study.js",
   "keywords": [
 
   ],

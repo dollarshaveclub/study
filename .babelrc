@@ -1,4 +1,29 @@
 {
-  "presets": [ "es2015-rollup" ],
-  "plugins": ["transform-class-properties"]
+  "presets": [
+    "stage-2"
+  ],
+  "plugins": [
+    "transform-runtime"
+  ],
+  "env": {
+    "production": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "browsers": ["last 2 versions", "safari >= 7", "ie >= 11"]
+          },
+          "modules": false
+        }]
+      ]
+    },
+    "test": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "browsers": ["last 2 versions", "safari >= 7", "ie >= 11"]
+          }
+        }]
+      ]
+    }
+  }
 }
