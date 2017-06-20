@@ -8,7 +8,6 @@
 [![codecov](https://codecov.io/gh/dollarshaveclub/study/branch/master/graph/badge.svg)](https://codecov.io/gh/dollarshaveclub/study)
 [![npm][npm-image]][npm-url]
 [![bower][bower-image]][bower-url]
-[![Share](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](#)
 
 [npm-image]: https://badge.fury.io/js/studyjs.svg
 [npm-url]: https://www.npmjs.com/package/studyjs
