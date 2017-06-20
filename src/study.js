@@ -1,5 +1,9 @@
 
-import { chooseWeightedItem, getDefaultBucket } from './utils';
+import {
+  chooseWeightedItem,
+  getDefaultBucket,
+  validateStore,
+} from './utils';
 
 export default class Study {
   constructor(options = {}) {
@@ -8,12 +12,15 @@ export default class Study {
       root: typeof document !== 'undefined' ? document.body : null,
     }, options);
 
-    if (!this.store) throw new Error('You must supply a store!');
+    validateStore(this.store);
 
     this.previousAssignments = {};
     try {
+      // assert that the data is a JSON string
+      // that represents a JSON object
+      // saw a bug where it was, for some reason, stored as `null`
       const data = this.store.get(this.storageKey);
-      if (data && data[0] === '{') {
+      if (typeof data === 'string' && data[0] === '{') {
         this.previousAssignments = JSON.parse(data);
       }
     } catch (_) {
@@ -45,7 +52,7 @@ export default class Study {
     const { root } = this;
     if (!root) return;
 
-
+    // classList does not support returning all classes
     const currentClassNames = root.className.split(/\s+/g)
       .map(x => x.trim())
       .filter(Boolean);
@@ -64,8 +71,11 @@ export default class Study {
       const bucket = userAssignments[testName];
 
       const className = bucket ? `${testName}--${bucket}` : null;
+      // remove all classes related to this bucket
       this.removeClasses(testName, className);
 
+      // only assign a class is the test is assigned to a bucket
+      // this removes then adds a class, which is not ideal but is clean
       if (className) root.classList.add(className);
     });
   }
@@ -88,15 +98,17 @@ export default class Study {
         }
       }
 
-      // already assigned
+      // already assigned, probably because someone
+      // called `.assignAll()` twice.
       if (userAssignments[test.name]) return;
 
       {
         // previously assigned, so we continue to persist it
         const bucket = previousAssignments[test.name];
         if (bucket && test.buckets[bucket]) {
-          persistedUserAssignments[test.name] =
-          userAssignments[test.name] = previousAssignments[test.name];
+          const assignment = previousAssignments[test.name];
+          persistedUserAssignments[test.name] = assignment;
+          userAssignments[test.name] = assignment;
           return;
         }
       }
@@ -114,14 +126,13 @@ export default class Study {
 
         names.forEach((innerBucketName) => {
           let weight = test.buckets[innerBucketName].weight;
-          if (typeof weight === 'undefined') {
-            weight = 1;
-          }
+          if (weight == null) weight = 1;
           weights.push(weight);
         });
 
-        persistedUserAssignments[test.name] =
-        userAssignments[test.name] = chooseWeightedItem(names, weights);
+        const assignment = chooseWeightedItem(names, weights);
+        persistedUserAssignments[test.name] = assignment;
+        userAssignments[test.name] = assignment;
       }
     });
 
@@ -136,11 +147,14 @@ export default class Study {
     if (bucketName === null || !test) {
       delete this.userAssignments[testName];
       delete this.persistedUserAssignments[testName];
+      this.persist();
       this.removeClasses(testName);
-    } else {
-      this.userAssignments[testName] =
-      this.persistedUserAssignments[testName] = bucketName || getDefaultBucket(test.buckets);
+      return;
     }
+
+    const assignment = bucketName || getDefaultBucket(test.buckets);
+    this.userAssignments[testName] = assignment;
+    this.persistedUserAssignments[testName] = assignment;
 
     this.persist();
     this.applyClasses();
