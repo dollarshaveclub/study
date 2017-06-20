@@ -14,8 +14,7 @@
     "build": "NODE_ENV=production ./node_modules/.bin/webpack",
     "lint": "eslint . --fix",
     "test": "jest --coverage --testEnvironment=jsdom",
-    "pages": "git push -f origin master:gh-pages",
-    "postpublish": "git tag $npm_package_version && git push origin --tags"
+    "pages": "git push -f origin master:gh-pages"
   },
   "dependencies": {
     "babel-runtime": "^6.23.0"
