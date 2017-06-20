@@ -28,6 +28,7 @@ You can download the compiled javascript directly [here](/build/study.js)
 ***
 
 ## Features
+
 * Powerful, clear API
 * Many variations. ABCD testing
 * Intelligent weighted bucketing
@@ -38,22 +39,23 @@ You can download the compiled javascript directly [here](/build/study.js)
 * Not tested on animals
 
 ## Installing
+
 ```bash
 # Via NPM
-npm i studyjs --save-dev
+npm i studyjs --save
 
 # Via Bower
-bower i studyjs --save-dev
+bower i studyjs --save
 
 # Via Yarn
 yarn add studyjs
 ```
 
 ## Developing
+
 ```bash
 npm install # Install dependencies
-npm build # Hint and uglify
-npm build-watch # Build and watch
+npm build # Build the babel'd version
 npm lint # Run linting
 npm test # Run tests
 ```
