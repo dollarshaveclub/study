@@ -1,5 +1,4 @@
 
-
 export default () => {
   const store = Object.create(null);
 
