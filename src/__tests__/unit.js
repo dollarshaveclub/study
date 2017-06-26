@@ -1,11 +1,11 @@
 
-import assert from 'assert';
+import assert from 'assert'
 
-import MemoryStore from '../stores/memory';
-import Study from '../study';
+import MemoryStore from '../stores/memory'
+import Study from '../study'
 
 it('should keep the same buckets if .assign() is ran twice', () => {
-  const test = new Study({ store: MemoryStore() });
+  const test = new Study({ store: MemoryStore() })
   test.define([
     {
       name: '1',
@@ -22,13 +22,13 @@ it('should keep the same buckets if .assign() is ran twice', () => {
         },
       },
     },
-  ]);
-  test.assign();
+  ])
+  test.assign()
 
-  const buckets = test.definitions();
+  const buckets = test.definitions()
 
   for (let i = 0; i < 100; i++) {
-    test.assign();
-    assert.deepEqual(buckets, test.definitions());
+    test.assign()
+    assert.deepEqual(buckets, test.definitions())
   }
-});
+})
