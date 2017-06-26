@@ -1,19 +1,19 @@
 
-import assert from 'assert';
+import assert from 'assert'
 
-import MemoryStore from '../stores/memory';
-import Study from '../study';
+import MemoryStore from '../stores/memory'
+import Study from '../study'
 
-function createTestName() {
-  return `ab-test-${Math.random().toString(36).slice(2)}`;
+function createTestName () {
+  return `ab-test-${Math.random().toString(36).slice(2)}`
 }
 
 it('should always bucket an inactive test to the default', () => {
-  const name = createTestName();
+  const name = createTestName()
 
-  let i = 0;
+  let i = 0
   while (i++ < 100) {
-    const test = new Study({ store: MemoryStore() });
+    const test = new Study({ store: MemoryStore() })
     test.define([
       {
         name,
@@ -34,15 +34,15 @@ it('should always bucket an inactive test to the default', () => {
           },
         },
       },
-    ]);
-    test.assign();
-    assert.equal('a', test.assignments()[name]);
+    ])
+    test.assign()
+    assert.equal('a', test.assignments()[name])
   }
-});
+})
 
 it('should always bucket to the winning test', () => {
-  const store = MemoryStore();
-  const name = createTestName();
+  const store = MemoryStore()
+  const name = createTestName()
 
   const defaultTests = [
     {
@@ -63,18 +63,18 @@ it('should always bucket to the winning test', () => {
         },
       },
     },
-  ];
+  ]
 
-  let test = new Study({ store });
-  test.define(defaultTests);
-  test.assign();
-  test.assign(name, 'b');
+  let test = new Study({ store })
+  test.define(defaultTests)
+  test.assign()
+  test.assign(name, 'b')
 
-  assert.equal('b', test.assignments()[name]);
+  assert.equal('b', test.assignments()[name])
 
-  defaultTests[0].buckets.a.winner = true;
-  test = new Study({ store });
-  test.define(defaultTests);
-  test.assign();
-  assert.equal('a', test.assignments()[name]);
-});
+  defaultTests[0].buckets.a.winner = true
+  test = new Study({ store })
+  test.define(defaultTests)
+  test.assign()
+  assert.equal('a', test.assignments()[name])
+})

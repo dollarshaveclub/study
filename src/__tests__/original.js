@@ -1,14 +1,14 @@
 
 /* eslint no-unused-expressions: 0 */
-import { expect } from 'chai';
+import { expect } from 'chai'
 
-import MemoryStore from '../stores/memory';
-import Study from '../study';
+import MemoryStore from '../stores/memory'
+import Study from '../study'
 
 it('should create an AB test', () => {
-  const name = 'test-1';
+  const name = 'test-1'
 
-  const test = new Study({ store: MemoryStore() });
+  const test = new Study({ store: MemoryStore() })
   test.define({
     name,
     buckets: {
@@ -16,16 +16,16 @@ it('should create an AB test', () => {
         weight: 1,
       },
     },
-  });
-  test.assign();
-  const info = test.assignments();
+  })
+  test.assign()
+  const info = test.assignments()
 
-  expect(info[name]).to.equal('foo');
-  expect(document.body.classList.contains(`${name}--foo`)).to.equal(true);
-});
+  expect(info[name]).to.equal('foo')
+  expect(document.body.classList.contains(`${name}--foo`)).to.equal(true)
+})
 
 it('should create multiple AB tests', () => {
-  const test = new Study({ store: MemoryStore() });
+  const test = new Study({ store: MemoryStore() })
 
   test.define([
     {
@@ -39,18 +39,18 @@ it('should create multiple AB tests', () => {
         bar: { weight: 1 },
       },
     },
-  ]);
-  test.assign();
-  const info = test.assignments();
+  ])
+  test.assign()
+  const info = test.assignments()
 
-  expect(info['test-multi-1']).to.equal('foo');
-  expect(info['test-multi-2']).to.equal('bar');
-  expect(document.body.classList.contains('test-multi-1--foo')).to.equal(true);
-  expect(document.body.classList.contains('test-multi-2--bar')).to.equal(true);
-});
+  expect(info['test-multi-1']).to.equal('foo')
+  expect(info['test-multi-2']).to.equal('bar')
+  expect(document.body.classList.contains('test-multi-1--foo')).to.equal(true)
+  expect(document.body.classList.contains('test-multi-2--bar')).to.equal(true)
+})
 
 it('should assign a bucket to a particular AB test', () => {
-  const test = new Study({ store: MemoryStore() });
+  const test = new Study({ store: MemoryStore() })
 
   test.define([
     {
@@ -69,17 +69,17 @@ it('should assign a bucket to a particular AB test', () => {
         baz: { weight: 1 },
       },
     },
-  ]);
-  test.assign('test-multi-4');
-  const info = test.assignments();
+  ])
+  test.assign('test-multi-4')
+  const info = test.assignments()
 
-  expect(Object.keys(info).length).to.equal(1);
-  expect(info['test-multi-4']).to.equal('bar');
-  expect(document.body.classList.contains('test-multi-4--bar')).to.equal(true);
-});
+  expect(Object.keys(info).length).to.equal(1)
+  expect(info['test-multi-4']).to.equal('bar')
+  expect(document.body.classList.contains('test-multi-4--bar')).to.equal(true)
+})
 
 it('should assign a particular bucket to a particular AB test', () => {
-  const test = new Study({ store: MemoryStore() });
+  const test = new Study({ store: MemoryStore() })
   test.define([
     {
       name: 'test-multi-6',
@@ -89,17 +89,17 @@ it('should assign a particular bucket to a particular AB test', () => {
         baz: { weight: 9 },
       },
     },
-  ]);
-  test.assign('test-multi-6', 'bar');
-  const info = test.assignments();
+  ])
+  test.assign('test-multi-6', 'bar')
+  const info = test.assignments()
 
-  expect(Object.keys(info).length).to.equal(1);
-  expect(info['test-multi-6']).to.equal('bar');
-  expect(document.body.classList.contains('test-multi-6--bar')).to.equal(true);
-});
+  expect(Object.keys(info).length).to.equal(1)
+  expect(info['test-multi-6']).to.equal('bar')
+  expect(document.body.classList.contains('test-multi-6--bar')).to.equal(true)
+})
 
 it('should assign a bucket to a particular AB test with prior assignations', () => {
-  const test = new Study({ store: MemoryStore() });
+  const test = new Study({ store: MemoryStore() })
   test.define([
     {
       name: 'test-multi-7',
@@ -120,36 +120,36 @@ it('should assign a bucket to a particular AB test with prior assignations', () 
         f: { weight: 0 },
       },
     },
-  ]);
-  test.assign();
-  let info = test.assignments();
+  ])
+  test.assign()
+  let info = test.assignments()
 
-  expect(Object.keys(info).length).to.equal(3);
-  expect(info['test-multi-8']).to.equal('c');
+  expect(Object.keys(info).length).to.equal(3)
+  expect(info['test-multi-8']).to.equal('c')
 
-  test.assign('test-multi-8', 'd');
-  info = test.assignments();
+  test.assign('test-multi-8', 'd')
+  info = test.assignments()
 
-  expect(Object.keys(info).length).to.equal(3);
-  expect(info['test-multi-8']).to.equal('d');
-});
+  expect(Object.keys(info).length).to.equal(3)
+  expect(info['test-multi-8']).to.equal('d')
+})
 
 it('should assign a bucket to a test, then remove it', () => {
-  const test = new Study({ store: MemoryStore() });
+  const test = new Study({ store: MemoryStore() })
   test.define([
     {
       name: 'test-to-remove-bucket-for',
       buckets: { foo: { weight: 1 } },
     },
-  ]);
-  test.assign();
-  const info = test.assignments();
-  expect(info['test-to-remove-bucket-for']).to.equal('foo');
-  expect(document.body.classList.contains('test-to-remove-bucket-for--foo')).to.equal(true);
+  ])
+  test.assign()
+  const info = test.assignments()
+  expect(info['test-to-remove-bucket-for']).to.equal('foo')
+  expect(document.body.classList.contains('test-to-remove-bucket-for--foo')).to.equal(true)
 
-  test.assign('test-to-remove-bucket-for', null);
+  test.assign('test-to-remove-bucket-for', null)
 
-  const updatedInfo = test.assignments();
-  expect(updatedInfo['test-to-remove-bucket-for']).to.equal(undefined);
-  expect(document.body.classList.contains('test-to-remove-bucket-for--foo')).to.equal(false);
-});
+  const updatedInfo = test.assignments()
+  expect(updatedInfo['test-to-remove-bucket-for']).to.equal(undefined)
+  expect(document.body.classList.contains('test-to-remove-bucket-for--foo')).to.equal(false)
+})
