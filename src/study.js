@@ -109,6 +109,7 @@ export default class Study {
           const assignment = previousAssignments[test.name]
           persistedUserAssignments[test.name] = assignment
           userAssignments[test.name] = assignment
+          test.active = true
           return
         }
       }
@@ -155,6 +156,7 @@ export default class Study {
     const assignment = bucketName || getDefaultBucket(test.buckets)
     this.userAssignments[testName] = assignment
     this.persistedUserAssignments[testName] = assignment
+    test.active = true
 
     this.persist()
     this.applyClasses()

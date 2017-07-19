@@ -78,3 +78,38 @@ it('should always bucket to the winning test', () => {
   test.assign()
   assert.equal('a', test.assignments()[name])
 })
+
+it('should mark a test as active when assigned and persisted', () => {
+  const store = MemoryStore()
+  const name = createTestName()
+
+  const defaultTests = [
+    {
+      name,
+      active: false,
+      buckets: {
+        a: {
+          weight: 1,
+          default: true,
+        },
+        b: {
+          weight: 1,
+        },
+      },
+    },
+  ]
+
+  let test = new Study({ store })
+  test.define(defaultTests)
+  test.assign()
+  assert.ok(!test.definitions()[0].active)
+
+  test.assign(name, 'b')
+  assert.ok(test.definitions()[0].active)
+
+  test = new Study({ store })
+  test.define(defaultTests)
+
+  test.assign()
+  assert.ok(test.definitions()[0].active)
+})
