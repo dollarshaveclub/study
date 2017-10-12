@@ -33,3 +33,16 @@ export const validateStore = (store) => {
   if (typeof store.isSupported !== 'function') throw new Error('The store must implement .isSupported()')
   if (!store.isSupported()) throw new Error('The store is not supported.')
 }
+
+export const getRandomAssignment = (test) => {
+  const names = Object.keys(test.buckets)
+  const weights = []
+
+  names.forEach((innerBucketName) => {
+    let weight = test.buckets[innerBucketName].weight
+    if (weight == null) weight = 1
+    weights.push(weight)
+  })
+
+  return chooseWeightedItem(names, weights)
+}
