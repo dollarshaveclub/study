@@ -1,6 +1,5 @@
 
 import {
-  chooseWeightedItem,
   getRandomAssignment,
   getDefaultBucket,
   validateStore,
