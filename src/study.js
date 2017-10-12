@@ -1,6 +1,6 @@
 
 import {
-  chooseWeightedItem,
+  getRandomAssignment,
   getDefaultBucket,
   validateStore,
 } from './utils'
@@ -122,16 +122,7 @@ export default class Study {
 
       // randomly assign
       {
-        const names = Object.keys(test.buckets)
-        const weights = []
-
-        names.forEach((innerBucketName) => {
-          let weight = test.buckets[innerBucketName].weight
-          if (weight == null) weight = 1
-          weights.push(weight)
-        })
-
-        const assignment = chooseWeightedItem(names, weights)
+        const assignment = getRandomAssignment(test)
         persistedUserAssignments[test.name] = assignment
         userAssignments[test.name] = assignment
       }
@@ -153,7 +144,7 @@ export default class Study {
       return
     }
 
-    const assignment = bucketName || getDefaultBucket(test.buckets)
+    const assignment = bucketName || getRandomAssignment(test)
     this.userAssignments[testName] = assignment
     this.persistedUserAssignments[testName] = assignment
     test.active = true
