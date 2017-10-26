@@ -12,8 +12,8 @@
   },
   "scripts": {
     "build": "NODE_ENV=production ./node_modules/.bin/webpack",
-    "build-es6": "NODE_ENV=production ./node_modules/.bin/babel src -s inline -d build/es6",
-    "prepublish": "npm run build-es6",
+    "build-es5": "NODE_ENV=production ./node_modules/.bin/babel src -s inline -d build/es5",
+    "prepublish": "npm run build-es5",
     "lint": "eslint . --fix",
     "test": "jest --coverage --testEnvironment=jsdom",
     "pages": "git push -f origin master:gh-pages"
