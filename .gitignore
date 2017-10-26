@@ -5,3 +5,4 @@ node_modules
 *.log.*
 
 build/es6
+build/es5
