@@ -113,3 +113,29 @@ it('should mark a test as active when assigned and persisted', () => {
   test.assign()
   assert.ok(test.definitions()[0].active)
 })
+
+it('should extend assignments', () => {
+  const store = MemoryStore()
+  const name = createTestName()
+
+  const defaultTests = [
+    {
+      name,
+      active: false,
+      buckets: {
+        a: {
+          weight: 1,
+          default: true,
+        },
+      },
+    },
+  ]
+
+  let test = new Study({ store })
+  test.define(defaultTests)
+  test.assign()
+  test.extendAssignments = (assignments) => Object.assign(assignments, { foo: 'bar' })
+  const assignments = test.assignments()
+  assert.ok(name in assignments)
+  assert.ok(assignments.foo === 'bar')
+})

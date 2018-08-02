@@ -232,6 +232,37 @@ assert.equal(buckets['new-homepage'], 'variantA');
 
 ***
 
+> ## `study.extendAssignments`
+> Extending assignments can be a useful way to augment your Study implementation with third party software.
+
+```javascript
+const study = new Study();
+
+// Create a function that will modify assignments before you call `assignments`
+study.extendAssignments =
+  (assignments) => Object.assign(assignments, { foo: 'bar' })
+
+// Retrieve all of the bucket assignments for the user
+const buckets = study.assignments();
+assert.equal(buckets['foo'], 'bar');
+```
+> A more practical example could be to implement with a third party AB testing platform like Optimizely _(This uses pseudo code for brevity)_
+
+```javascript
+study.extendAssignments = (assignments) => {
+  if (window.optimizely)
+    for (const experiment in optimizely.experiments())
+      assignments[experiment.name] = experiment.bucket
+
+  return assignments
+}
+```
+
+**Returns**: `Object`
+
+
+***
+
 ## Guide/FAQ
 
 ### CSS Driven Tests
@@ -268,7 +299,7 @@ const bar = defs.buckets[bucket].foo; // "bar"
 
 **MIT Licensing**
 
-Copyright (c) 2015 - 2017 Dollar Shave Club
+Copyright (c) 2015 - 2018 Dollar Shave Club
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
