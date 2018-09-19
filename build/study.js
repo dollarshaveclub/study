@@ -564,7 +564,10 @@ var Study = function () {
   }, {
     key: 'assign',
     value: function assign(testName, bucketName) {
-      if (!testName) return this.assignAll();
+      if (!testName) {
+        console.warn('test name does not exist');
+        return this.assignAll();
+      }
 
       var test = this.providedTests.filter(function (x) {
         return x.name === testName;
