@@ -13,7 +13,16 @@
   "scripts": {
     "build": "NODE_ENV=production ./node_modules/.bin/webpack",
     "build-es5": "NODE_ENV=production ./node_modules/.bin/babel src -s inline -d build/es5",
+    "chore:delete-changelog-branch": "if git show-ref --quiet refs/heads/chore-changelog; then git branch -D chore-changelog; fi",
+    "chore:branch": "git checkout -b chore-changelog",
+    "chore:changelog": "conventional-changelog -p eslint -i CHANGELOG.md -s -r 0",
+    "chore:setup-next-work": "git checkout master && npm run chore:delete-changelog-branch",
+    "chore:pr": "git add . && git commit -m '[chore] updates changelog' --no-verify && git push origin chore-changelog -f",
+    "chore:setup-changelog": "git checkout master && git pull",
+    "chore": "npm run chore:delete-changelog-branch && npm run chore:branch && npm run chore:changelog && npm run chore:pr && npm run chore:setup-next-work",
+    "postpublish": "git tag $npm_package_version && git push origin --tags && npm run chore",
     "prepublish": "npm run build-es5",
+    "prepush": "npm run build && npm test",
     "lint": "eslint . --fix",
     "test": "jest --coverage --testEnvironment=jsdom",
     "pages": "git push -f origin master:gh-pages"
@@ -31,8 +40,10 @@
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.0.2",
     "codecov": "^2.2.0",
+    "conventional-changelog-cli": "^2.0.5",
     "eslint": "^3.19.0",
     "eslint-config-dollarshaveclub": "^1.0.3",
+    "husky": "^0.14.3",
     "jest": "^20.0.4",
     "webpack": "^3.0.0"
   },
