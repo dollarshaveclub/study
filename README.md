@@ -5,7 +5,7 @@
 > A progressive, client/server AB testing library.
 
 [![CircleCI](https://circleci.com/gh/dollarshaveclub/study/tree/master.svg?style=svg)](https://circleci.com/gh/dollarshaveclub/study/tree/master)
-[![codecov](https://codecov.io/gh/dollarshaveclub/study/branch/master/graph/badge.svg)](https://codecov.io/gh/dollarshaveclub/study)
+[![codecov](https://codecov.io/gh/dollarshaveclub/study/branch/master/graph/badge.svg)](https://codecov.io/gh/dollarshaveclub/study) [![Greenkeeper badge](https://badges.greenkeeper.io/dollarshaveclub/study.svg)](https://greenkeeper.io/)
 [![npm][npm-image]][npm-url]
 [![bower][bower-image]][bower-url]
 

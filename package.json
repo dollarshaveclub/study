@@ -24,7 +24,7 @@
     "prepublish": "npm run build-es5",
     "prepush": "npm run build && npm test",
     "lint": "eslint . --fix",
-    "test": "jest --coverage --testEnvironment=jsdom",
+    "test": "jest",
     "pages": "git push -f origin master:gh-pages"
   },
   "dependencies": {
@@ -32,22 +32,25 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-eslint": "^7.2.3",
-    "babel-jest": "^20.0.3",
-    "babel-loader": "^7.0.0",
+    "babel-eslint": "^9.0.0",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "7.0.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.5.2",
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.0.2",
-    "codecov": "^2.2.0",
+    "codecov": "^3.1.0",
     "conventional-changelog-cli": "^2.0.5",
-    "eslint": "^3.19.0",
-    "eslint-config-dollarshaveclub": "^1.0.3",
+    "eslint": "^5.6.0",
+    "eslint-config-dollarshaveclub": "^3.1.0",
     "husky": "^0.14.3",
-    "jest": "^20.0.4",
-    "webpack": "^3.0.0"
+    "jest": "^23.6.0",
+    "webpack": "3.0.0"
   },
   "files": [
     "build"
-  ]
+  ],
+  "jest": {
+    "collectCoverage": true
+  }
 }

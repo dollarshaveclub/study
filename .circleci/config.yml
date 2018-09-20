@@ -23,6 +23,9 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - npm run lint
-      - npm test
+      - run: npm install
+      - run: npm run lint
+      - run: npm run build
+      - run: npm run build-es5
+      - run: npm test
       - save_cache: *save_cache
