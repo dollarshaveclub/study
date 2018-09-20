@@ -24,7 +24,7 @@
     "prepublish": "npm run build-es5",
     "prepush": "npm run build && npm test",
     "lint": "eslint . --fix",
-    "test": "jest --coverage --testEnvironment=jsdom",
+    "test": "jest --coverage",
     "pages": "git push -f origin master:gh-pages"
   },
   "dependencies": {
