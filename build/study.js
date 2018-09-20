@@ -586,9 +586,14 @@ var Study = function () {
       this.applyClasses();
     }
   }, {
+    key: 'extendAssignments',
+    value: function extendAssignments(assignments) {
+      return assignments;
+    }
+  }, {
     key: 'assignments',
     value: function assignments() {
-      return this.userAssignments;
+      return this.extendAssignments(this.userAssignments);
     }
   }, {
     key: 'persist',

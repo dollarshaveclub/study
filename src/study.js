@@ -153,8 +153,12 @@ export default class Study {
     this.applyClasses()
   }
 
+  extendAssignments (assignments) {
+    return assignments
+  }
+
   assignments () {
-    return this.userAssignments
+    return this.extendAssignments(this.userAssignments)
   }
 
   persist () {
