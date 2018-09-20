@@ -45,13 +45,13 @@ it('should randomly assign when doing .assign()', () => {
       control: { weight: 0.6 },
       versionA: { weight: 0.2 },
       versionB: { weight: 0.2 },
-    }
+    },
   })
 
   const buckets = {
     control: 0,
     versionA: 0,
-    versionB: 0
+    versionB: 0,
   }
 
   // Bucket the user
