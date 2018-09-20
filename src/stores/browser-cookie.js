@@ -8,6 +8,6 @@ export default () => ({
     const expirationDate = new Date('12/31/9999').toUTCString()
     document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(val)}; expires=${expirationDate}; path=/`
   },
-  /*eslint-enable */
+  /* eslint-enable */
   isSupported: () => typeof document !== 'undefined',
 })
