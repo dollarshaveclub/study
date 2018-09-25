@@ -131,7 +131,7 @@ it('should extend assignments', () => {
     },
   ]
 
-  let test = new Study({ store })
+  const test = new Study({ store })
   test.define(defaultTests)
   test.assign()
   test.extendAssignments = (assignments) => Object.assign(assignments, { foo: 'bar' })
