@@ -24,6 +24,7 @@
     "prepublish": "npm run build-es5",
     "prepush": "npm run build && npm test",
     "lint": "eslint . --fix",
+    "lint:ci": "eslint .",
     "test": "jest",
     "pages": "git push -f origin master:gh-pages"
   },
@@ -45,7 +46,8 @@
     "eslint-config-dollarshaveclub": "^3.1.0",
     "husky": "^0.14.3",
     "jest": "^23.6.0",
-    "webpack": "4.20.0"
+    "webpack": "4.20.0",
+    "webpack-cli": "^3.1.1"
   },
   "files": [
     "build"
