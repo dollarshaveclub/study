@@ -43,7 +43,7 @@
     "conventional-changelog-cli": "2.0.5",
     "eslint": "5.6.0",
     "eslint-config-dollarshaveclub": "3.1.0",
-    "husky": "0.14.3",
+    "husky": "1.0.0",
     "jest": "22.4.3",
     "webpack": "4.20.0",
     "webpack-cli": "3.1.1"
