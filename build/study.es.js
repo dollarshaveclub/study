@@ -5,8 +5,6 @@
   @author Jacob Kelley <jacob.kelley@dollarshaveclub.com>
   @license MIT
 **/
-'use strict';
-
 var rand = function rand(min, max) {
   return Math.random() * (max - min) + min;
 }; // choose a random value with the specified weights
@@ -297,4 +295,4 @@ var stores = {
 window.Study = Study;
 Study.stores = stores;
 
-module.exports = Study;
+export default Study;
