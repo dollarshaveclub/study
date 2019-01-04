@@ -36,7 +36,7 @@ it('should always bucket an inactive test to the default', () => {
       },
     ])
     test.assign()
-    assert.equal('a', test.assignments()[name])
+    assert.strictEqual('a', test.assignments()[name])
   }
 })
 
@@ -70,13 +70,13 @@ it('should always bucket to the winning test', () => {
   test.assign()
   test.assign(name, 'b')
 
-  assert.equal('b', test.assignments()[name])
+  assert.strictEqual('b', test.assignments()[name])
 
   defaultTests[0].buckets.a.winner = true
   test = new Study({ store })
   test.define(defaultTests)
   test.assign()
-  assert.equal('a', test.assignments()[name])
+  assert.strictEqual('a', test.assignments()[name])
 })
 
 it('should mark a test as active when assigned and persisted', () => {
