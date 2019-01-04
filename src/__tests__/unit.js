@@ -29,7 +29,7 @@ it('should keep the same buckets if .assign() is ran twice', () => {
 
   for (let i = 0; i < 100; i++) {
     test.assign()
-    assert.deepEqual(buckets, test.definitions())
+    assert.deepStrictEqual(buckets, test.definitions())
   }
 })
 
