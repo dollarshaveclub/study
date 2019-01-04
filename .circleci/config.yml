@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/code
   docker:
-    - image: circleci/node:8
+    - image: circleci/node:10
       environment:
         NPM_CONFIG_LOGLEVEL: error # make npm commands less noisy
         JOBS: max # https://gist.github.com/ralphtheninja/f7c45bdee00784b41fed
@@ -26,6 +26,5 @@ jobs:
       - run: npm install
       - run: npm run lint:ci
       - run: npm run build
-      - run: npm run build-es5
       - run: npm test
       - save_cache: *save_cache
