@@ -214,7 +214,7 @@ study.assign();
 
 // Retrieve all of the bucket assignments for the user
 const buckets = study.assignments();
-assert.equal(buckets['new-homepage'], 'variantA');
+assert.strictEqual(buckets['new-homepage'], 'variantA');
 ```
 > This provides the user with all of the bucket assignments for the current user.
 
@@ -244,7 +244,7 @@ study.extendAssignments =
 
 // Retrieve all of the bucket assignments for the user
 const buckets = study.assignments();
-assert.equal(buckets['foo'], 'bar');
+assert.strictEqual(buckets['foo'], 'bar');
 ```
 > A more practical example could be to implement with a third party AB testing platform like Optimizely _(This uses pseudo code for brevity)_
 
