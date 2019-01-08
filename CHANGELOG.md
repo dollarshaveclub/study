@@ -1,4 +1,4 @@
-# [4.2.0-rc.0](https://github.com/dollarshaveclub/study/compare/4.1.0...4.2.0-rc.0) (2019-01-05)
+# [5.0.0](https://github.com/dollarshaveclub/study/compare/4.1.0...5.0.0) (2019-01-08)
 
 
 
