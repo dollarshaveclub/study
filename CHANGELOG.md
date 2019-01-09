@@ -1,3 +1,8 @@
+## [5.0.1](https://github.com/dollarshaveclub/study/compare/5.0.0...5.0.1) (2019-01-09)
+
+
+
+
 # [5.0.0](https://github.com/dollarshaveclub/study/compare/4.1.0...5.0.0) (2019-01-08)
 
 
