@@ -1,6 +1,6 @@
 /**
   studyjs - A client side A/B tester
-  @version v5.0.0
+  @version v5.0.1
   @link https://github.com/dollarshaveclub/study
   @author Jacob Kelley <jacob.kelley@dollarshaveclub.com>
   @license MIT

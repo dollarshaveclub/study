@@ -56,7 +56,7 @@ const createConfig = ({ output, env } = {}) => {
 export default [
   createConfig({
     output: [
-      { file: pkg.main, format: 'cjs' },
+      { file: pkg.main, format: 'umd' },
       { file: pkg.module, format: 'es' },
     ],
   }),
