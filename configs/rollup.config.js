@@ -46,7 +46,7 @@ const createConfig = ({ output, env } = {}) => {
         format,
         {
           banner,
-          name: 'Postmate',
+          name: 'Study',
         }
       )
     ),
