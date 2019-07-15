@@ -1,6 +1,6 @@
 /**
   studyjs - A client side A/B tester
-  @version v5.0.2
+  @version v5.0.3
   @link https://github.com/dollarshaveclub/study
   @author Jacob Kelley <jacob.kelley@dollarshaveclub.com>
   @license MIT
@@ -31,7 +31,7 @@ var chooseWeightedItem = function chooseWeightedItem(names, weights) {
 var getDefaultBucket = function getDefaultBucket(buckets) {
   var defaultBuckets = Object.keys(buckets).filter(function (name) {
     var x = buckets[name];
-    return x.default || x.winner;
+    return x["default"] || x.winner;
   });
   return defaultBuckets[0] || Object.keys(buckets)[0];
 };
@@ -106,37 +106,43 @@ function () {
   };
 
   _proto.removeClasses = function removeClasses(testName, exceptClassName) {
-    var root = this.root;
-    if (!root) return; // classList does not support returning all classes
+    try {
+      var root = this.root;
+      if (!root) return; // classList does not support returning all classes
 
-    var currentClassNames = root.className.split(/\s+/g).map(function (x) {
-      return x.trim();
-    }).filter(Boolean);
-    currentClassNames.filter(function (x) {
-      return x.indexOf(testName + "--") === 0;
-    }).filter(function (className) {
-      return className !== exceptClassName;
-    }).forEach(function (className) {
-      return root.classList.remove(className);
-    });
+      var currentClassNames = root.className.split(/\s+/g).map(function (x) {
+        return x.trim();
+      }).filter(Boolean);
+      currentClassNames.filter(function (x) {
+        return x.indexOf(testName + "--") === 0;
+      }).filter(function (className) {
+        return className !== exceptClassName;
+      }).forEach(function (className) {
+        return root.classList.remove(className);
+      });
+    } catch (_) {// Ignore
+    }
   };
 
   _proto.applyClasses = function applyClasses() {
     var _this2 = this;
 
-    var userAssignments = this.userAssignments,
-        root = this.root;
-    if (!root) return;
-    Object.keys(userAssignments).forEach(function (testName) {
-      var bucket = userAssignments[testName];
-      var className = bucket ? testName + "--" + bucket : null; // remove all classes related to this bucket
+    try {
+      var userAssignments = this.userAssignments,
+          root = this.root;
+      if (!root) return;
+      Object.keys(userAssignments).forEach(function (testName) {
+        var bucket = userAssignments[testName];
+        var className = bucket ? testName + "--" + bucket : null; // remove all classes related to this bucket
 
-      _this2.removeClasses(testName, className); // only assign a class is the test is assigned to a bucket
-      // this removes then adds a class, which is not ideal but is clean
+        _this2.removeClasses(testName, className); // only assign a class is the test is assigned to a bucket
+        // this removes then adds a class, which is not ideal but is clean
 
 
-      if (className) root.classList.add(className);
-    });
+        if (className) root.classList.add(className);
+      });
+    } catch (_) {// Ignore
+    }
   };
 
   _proto.assignAll = function assignAll() {
