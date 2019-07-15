@@ -49,35 +49,43 @@ export default class Study {
   }
 
   removeClasses (testName, exceptClassName) {
-    const { root } = this
-    if (!root) return
+    try {
+      const { root } = this
+      if (!root) return
 
-    // classList does not support returning all classes
-    const currentClassNames = root.className.split(/\s+/g)
-      .map(x => x.trim())
-      .filter(Boolean)
+      // classList does not support returning all classes
+      const currentClassNames = root.className.split(/\s+/g)
+        .map(x => x.trim())
+        .filter(Boolean)
 
-    currentClassNames
-      .filter(x => x.indexOf(`${testName}--`) === 0)
-      .filter(className => className !== exceptClassName)
-      .forEach(className => root.classList.remove(className))
+      currentClassNames
+        .filter(x => x.indexOf(`${testName}--`) === 0)
+        .filter(className => className !== exceptClassName)
+        .forEach(className => root.classList.remove(className))
+    } catch (_) {
+      // Ignore
+    }
   }
 
   applyClasses () {
-    const { userAssignments, root } = this
-    if (!root) return
+    try {
+      const { userAssignments, root } = this
+      if (!root) return
 
-    Object.keys(userAssignments).forEach((testName) => {
-      const bucket = userAssignments[testName]
+      Object.keys(userAssignments).forEach((testName) => {
+        const bucket = userAssignments[testName]
 
-      const className = bucket ? `${testName}--${bucket}` : null
-      // remove all classes related to this bucket
-      this.removeClasses(testName, className)
+        const className = bucket ? `${testName}--${bucket}` : null
+        // remove all classes related to this bucket
+        this.removeClasses(testName, className)
 
-      // only assign a class is the test is assigned to a bucket
-      // this removes then adds a class, which is not ideal but is clean
-      if (className) root.classList.add(className)
-    })
+        // only assign a class is the test is assigned to a bucket
+        // this removes then adds a class, which is not ideal but is clean
+        if (className) root.classList.add(className)
+      })
+    } catch (_) {
+      // Ignore
+    }
   }
 
   assignAll () {
