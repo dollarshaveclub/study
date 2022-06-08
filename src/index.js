@@ -15,5 +15,7 @@ const stores = {
   memory: memory(),
 }
 
-window.Study = Study
+if (typeof window !== undefined) {
+  window.Study = Study
+}
 Study.stores = stores
